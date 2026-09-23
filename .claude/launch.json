@@ -30,6 +30,12 @@
       "runtimeExecutable": "bash",
       "runtimeArgs": ["scripts/dev-challenge.sh", "pass", "--preview"],
       "port": 8788
+    },
+    {
+      "name": "dev-mock-5174",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "BAGEL_MOCK_API=1 pnpm --filter @bagel/web exec vite --port 5174"],
+      "port": 5174
     }
   ]
 }
