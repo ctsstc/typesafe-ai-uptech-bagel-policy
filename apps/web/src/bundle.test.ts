@@ -1,5 +1,5 @@
 // @vitest-environment node
-import { mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -79,6 +79,17 @@ describe("production bundle", () => {
     );
     const markers = ["describing a bagel", "claims the board already ruled", ...text];
     expect(markers.filter((s) => shipped.includes(s))).toEqual([]);
+  });
+
+  it("points link previews at absolute URLs on the production site", () => {
+    const html = readFileSync(join(outDir, "index.html"), "utf8");
+    expect(html).not.toContain("%SITE_URL%");
+    expect(html).toContain(
+      '<meta property="og:image" content="https://bagel-review-board.pages.dev/og.png" />',
+    );
+    expect(html).toContain('<meta name="twitter:card" content="summary_large_image" />');
+    expect(existsSync(join(outDir, "og.png"))).toBe(true);
+    expect(existsSync(join(outDir, "apple-touch-icon.png"))).toBe(true);
   });
 
   it("ships no source maps", () => {

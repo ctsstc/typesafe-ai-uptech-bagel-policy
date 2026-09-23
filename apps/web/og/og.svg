@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <title>Exhibit A: bagel with vanilla cream cheese, ruled a Violation by the Bagel Review Board</title>
+  <defs>
+    <clipPath id="card"><rect x="48" y="128" width="836" height="454" rx="14"/></clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="#002133"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity="0.2" stroke-width="3.5"><circle cx="1066" cy="392" r="222"/><circle cx="1066" cy="392" r="72.4"/><path d="M897.1 464.4 q168.9 96.5 337.8 0"/><ellipse cx="1085.3" cy="227.9" rx="12.1" ry="6.0" transform="rotate(28 1085.3 227.9)"/><ellipse cx="1162.5" cy="271.3" rx="12.1" ry="6.0" transform="rotate(60 1162.5 271.3)"/><ellipse cx="1215.6" cy="353.4" rx="12.1" ry="6.0" transform="rotate(82 1215.6 353.4)"/><ellipse cx="1225.3" cy="454.7" rx="12.1" ry="6.0" transform="rotate(86 1225.3 454.7)"/><ellipse cx="1186.7" cy="546.4" rx="12.1" ry="6.0" transform="rotate(70 1186.7 546.4)"/><ellipse cx="969.5" cy="247.2" rx="12.1" ry="6.0" transform="rotate(70 969.5 247.2)"/><ellipse cx="911.6" cy="324.4" rx="12.1" ry="6.0" transform="rotate(46 911.6 324.4)"/><ellipse cx="897.1" cy="425.8" rx="12.1" ry="6.0" transform="rotate(40 897.1 425.8)"/><ellipse cx="940.5" cy="527.1" rx="12.1" ry="6.0" transform="rotate(58 940.5 527.1)"/></g>
+
+  <circle cx="69" cy="80" r="16" fill="none" stroke="#2eb4ff" stroke-width="9"/>
+  <text x="101" y="92" font-family="Mulish" font-weight="800" font-size="34" fill="#ffffff" letter-spacing="0.6">Bagel Review Board</text>
+  <text x="1152" y="91" text-anchor="end" font-family="Mulish" font-weight="700" font-size="26" fill="#e5e7eb" fill-opacity="0.9">Describe a bagel. The board will rule.</text>
+
+  <rect x="48" y="128" width="836" height="454" rx="14" fill="#0a3149"/>
+  <rect x="48" y="128" width="836" height="12" fill="#ff7a6b" clip-path="url(#card)"/>
+  <rect x="49" y="129" width="834" height="452" rx="13" fill="none" stroke="#1d3a4e" stroke-width="2" clip-path="url(#card)"/>
+
+  <text x="95" y="210" font-family="Mulish" font-weight="600" font-style="italic" font-size="40" fill="#e5e7eb">“bagel with <tspan fill="#f3e2b3" font-weight="600">vanilla</tspan> cream cheese”</text>
+  <text x="102" y="356" font-family="Mulish" font-weight="900" font-size="150" fill="#ff7a6b" letter-spacing="-2">Violation</text>
+  <text x="100" y="410" font-family="Mulish" font-weight="700" font-size="32" fill="#e5e7eb">Subject to disciplinary action.</text>
+  <rect x="100" y="444" width="732" height="2" fill="#1d3a4e"/>
+  <text x="100" y="494" font-family="Mulish" font-weight="800" font-size="24" fill="#e5e7eb" fill-opacity="0.8" letter-spacing="1.6">BAGEL</text><text x="100" y="534" font-family="Mulish" font-weight="800" font-size="31" fill="#e5e7eb" fill-opacity="0.7">Not specified</text><text x="348" y="494" font-family="Mulish" font-weight="800" font-size="24" fill="#e5e7eb" fill-opacity="0.8" letter-spacing="1.6">CREAM CHEESE</text><text x="348" y="534" font-family="Mulish" font-weight="800" font-size="31" fill="#ff7a6b" fill-opacity="1">No sweets</text><text x="628" y="494" font-family="Mulish" font-weight="800" font-size="24" fill="#e5e7eb" fill-opacity="0.8" letter-spacing="1.6">TOPPINGS</text><text x="628" y="534" font-family="Mulish" font-weight="800" font-size="31" fill="#e5e7eb" fill-opacity="0.7">None</text>
+  <g transform="rotate(-10 1008 232)" fill="none" stroke="#2eb4ff" opacity="0.95">
+    <rect x="868" y="166" width="280" height="132" rx="12" stroke-width="6"/>
+    <rect x="880" y="178" width="256" height="108" rx="7" stroke-width="2.5"/>
+    <text x="1008" y="241" text-anchor="middle" font-family="Mulish" font-weight="900" font-size="42" letter-spacing="2" fill="#2eb4ff" stroke="none">EXHIBIT A</text>
+    <text x="1008" y="272" text-anchor="middle" font-family="Mulish" font-weight="800" font-size="18" letter-spacing="6" fill="#2eb4ff" stroke="none">CASE NO. 001</text>
+  </g>
+</svg>

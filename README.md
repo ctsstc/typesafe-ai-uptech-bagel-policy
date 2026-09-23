@@ -77,7 +77,7 @@ One Cloudflare Pages project with a KV namespace, a D1 database and a Turnstile 
 
 ```text
 packages/core/   Policy tiers, Jev questions, input normalization, result mapping, mock, wire types
-apps/web/        React SPA, Pages Functions (rule.ts, session.ts), D1 migrations, Vite mock API plugin
+apps/web/        React SPA, Pages Functions (rule.ts, session.ts), D1 migrations, Vite plugins, og/ link preview sources
 eval/            Labelled orders, the budgeted eval harness and results per question set
 scripts/         pages-dev.sh and dev-challenge.sh (local wrangler), deploy.sh, cloudflare-config.mjs, spend.mjs
 docs/            eval.md (tuning rounds) and deploy.md (Cloudflare runbook)
