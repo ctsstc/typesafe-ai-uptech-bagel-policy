@@ -110,3 +110,17 @@ describe("errors", () => {
     ).toBeInTheDocument();
   });
 });
+
+describe("footer", () => {
+  it("says who made it and links the source", () => {
+    vi.stubGlobal("fetch", async () => Response.json({}));
+    render(<App />);
+    expect(
+      screen.getByText(/Made by an Uptech employee, not an official Uptech product\./),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Source on GitHub" })).toHaveAttribute(
+      "href",
+      "https://github.com/ctsstc/typesafe-ai-uptech-bagel-policy",
+    );
+  });
+});

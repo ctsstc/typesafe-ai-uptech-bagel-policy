@@ -13,7 +13,7 @@ import { ShareBar } from "./components/ShareBar";
 import { fetchRuling, isChecking, type RuleOutcome, subscribeChecking } from "./lib/api";
 import { WAITING_FOR_CHECK } from "./lib/errors";
 import { EXAMPLES } from "./lib/examples";
-import { AUTHOR_URL, POLICY_URL, TYPESAFE_URL } from "./lib/links";
+import { AUTHOR_URL, CLAUDE_CODE_URL, POLICY_URL, SOURCE_URL, TYPESAFE_URL } from "./lib/links";
 import { orderFromSearch, orderHref } from "./lib/url";
 
 type State =
@@ -163,12 +163,13 @@ export function App() {
 
       <footer className="footer">
         <p>
-          An unofficial fan app, not affiliated with or endorsed by Uptech Studio. The{" "}
-          <a href={POLICY_URL}>Bagel Policy</a> is theirs. Rulings by Jev from{" "}
+          Made by an Uptech employee, not an official Uptech product. The{" "}
+          <a href={POLICY_URL}>Bagel Policy</a> is Uptech Studio's. Rulings by Jev from{" "}
           <a href={TYPESAFE_URL}>TypeSafe</a>.
         </p>
         <p>
-          Made by <a href={AUTHOR_URL}>Cody Swartz</a>.
+          Made by <a href={AUTHOR_URL}>Cody Swartz</a> with{" "}
+          <a href={CLAUDE_CODE_URL}>Claude Code</a>. <a href={SOURCE_URL}>Source on GitHub</a>.
         </p>
       </footer>
     </>
