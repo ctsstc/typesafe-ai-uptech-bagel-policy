@@ -12,6 +12,24 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "@bagel/web", "dev:mock"],
       "port": 5173
+    },
+    {
+      "name": "pages-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["preview:pages"],
+      "port": 8788
+    },
+    {
+      "name": "challenge-preview-interactive",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["scripts/dev-challenge.sh", "interactive", "--preview"],
+      "port": 8788
+    },
+    {
+      "name": "challenge-preview-pass",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["scripts/dev-challenge.sh", "pass", "--preview"],
+      "port": 8788
     }
   ]
 }

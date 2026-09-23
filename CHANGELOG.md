@@ -13,6 +13,9 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - An eval of 190 labelled orders (`pnpm eval`): canon from the policy page and three office incidents, plus tune and holdout sets labelled by agent consensus. Every live eval call is logged and capped by a fixed budget. See `docs/eval.md`.
 
+- Spend protection ported from the Cube Rule Oracle. A new ruling needs a Cloudflare Turnstile session, then passes per-session (60), per-client (150 a day, keyed by an HMAC of the IPv4 address or IPv6 /64) and daily (1,000) D1 caps before Jev is called, and the Function fails closed. Cached rulings never see a check.
+- `pnpm dev:challenge`, `pnpm deploy:pages`, `pnpm migrate:remote` and `pnpm spend`, with the runbook in `docs/deploy.md`.
+
 ### Changed
 
 - Question set 3. The toppings question no longer grades the bagel's own flavor or the cream cheese as a topping, the sandwich question treats bagels as open-faced unless the order says otherwise, and orders that tell the board what to rule are treated as nonsense. `THRESHOLDS.sandwich` is now 0.8. Verdict accuracy went from 43% to 94% on canon and from 56% to 97% on holdout.

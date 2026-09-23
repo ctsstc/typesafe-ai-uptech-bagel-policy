@@ -20,7 +20,8 @@ With `TYPESAFE_API_KEY` empty, the Function serves keyword-based mock rulings an
 ```text
 packages/core/   Policy tiers, Jev questions, input normalization, result mapping, mock, wire types
 apps/web/        React SPA, Pages Function (functions/api/rule.ts), Vite mock API plugin
-scripts/         pages-dev.sh (local wrangler)
+scripts/         pages-dev.sh and dev-challenge.sh (local wrangler), deploy.sh, cloudflare-config.mjs, spend.mjs
+docs/            eval.md (tuning rounds) and deploy.md (Cloudflare runbook)
 ```
 
 Infra is adapted from [typesafe-ai-cube-rule](https://github.com/ctsstc/typesafe-ai-cube-rule).
