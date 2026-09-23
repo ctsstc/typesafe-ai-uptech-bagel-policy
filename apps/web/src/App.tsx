@@ -122,13 +122,13 @@ export function App() {
               <li key={order}>
                 <button
                   type="button"
-                  className="chip"
-                  title={note}
+                  className={note ? "chip chip-featured" : "chip"}
                   onClick={() => {
                     setText(order);
                     void submit(order);
                   }}
                 >
+                  {note && <span className="chip-note">{note}</span>}
                   {order}
                 </button>
               </li>

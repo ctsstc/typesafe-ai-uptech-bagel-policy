@@ -1,4 +1,6 @@
 import { OUTRAGE_LEVELS, type PolicyResult, SECTIONS, VERDICTS } from "@bagel/core";
+import { POLICY_URL } from "../lib/links";
+import { isFoundingIncident } from "../lib/precedent";
 
 const OUT_OF_SCOPE = {
   other_food: "No bagel detected. This is outside the board's jurisdiction.",
@@ -27,6 +29,13 @@ export function RulingCard({ result, mock }: { result: PolicyResult; mock: boole
       <p className="card-order">“{result.order}”</p>
       <h2 className="verdict">{verdict.label}</h2>
       <p className="verdict-blurb">{verdict.blurb}</p>
+      {isFoundingIncident(result) && (
+        <p className="precedent">
+          <strong>Precedent.</strong> Vanilla cream cheese at a company-wide event is the incident
+          that made the <a href={POLICY_URL}>Bagel Policy</a> necessary. The board has seen this
+          before.
+        </p>
+      )}
       {result.sandwich && (
         <p className="sandwich-flag">
           <strong>Sandwich alert.</strong> The policy says a proper bagel is served open-faced.

@@ -112,12 +112,24 @@ describe("errors", () => {
 });
 
 describe("examples", () => {
-  it("leads with the vanilla cream cheese incident the policy was written after", () => {
+  it("leads with the vanilla cream cheese incident, labelled where everyone can see it", () => {
     vi.stubGlobal("fetch", async () => Response.json({}));
     render(<App />);
     const [first] = within(screen.getByRole("list", { name: "Examples" })).getAllByRole("button");
+    expect(first).toHaveTextContent("Where it all began");
     expect(first).toHaveTextContent("bagel with vanilla cream cheese");
-    expect(first).toHaveAttribute("title", "The incident that started the policy");
+  });
+
+  it("fills in only the order, not the label", async () => {
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ ...mockPolicyResponse("bagel with vanilla cream cheese"), mock: true }),
+    );
+    render(<App />);
+    await userEvent.click(screen.getByRole("button", { name: /Where it all began/ }));
+    expect(screen.getByLabelText("What are you bringing?")).toHaveValue(
+      "bagel with vanilla cream cheese",
+    );
+    expect(await screen.findByText("Precedent.")).toBeInTheDocument();
   });
 });
 

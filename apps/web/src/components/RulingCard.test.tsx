@@ -18,3 +18,17 @@ describe("RulingCard", () => {
     expect(screen.queryByText("Sandwich alert.")).toBeNull();
   });
 });
+
+describe("precedent", () => {
+  it("cites the founding incident on a vanilla cream cheese ruling only", () => {
+    const { unmount } = card("bagel with vanilla cream cheese");
+    expect(screen.getByText("Precedent.")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Bagel Policy" })).toHaveAttribute(
+      "href",
+      "https://www.uptechstudio.com/bagels",
+    );
+    unmount();
+    card("plain bagel with honey cream cheese");
+    expect(screen.queryByText("Precedent.")).toBeNull();
+  });
+});

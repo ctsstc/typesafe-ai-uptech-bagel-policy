@@ -1,5 +1,5 @@
 export const EXAMPLES: readonly { order: string; note?: string }[] = [
-  { order: "bagel with vanilla cream cheese", note: "The incident that started the policy" },
+  { order: "bagel with vanilla cream cheese", note: "Where it all began" },
   { order: "everything bagel, plain schmear, lox, capers, red onion" },
   { order: "asiago bagel with scallion cream cheese" },
   { order: "plain bagel with avocado" },
