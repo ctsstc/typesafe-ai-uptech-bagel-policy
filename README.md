@@ -85,6 +85,6 @@ docs/            eval.md (tuning rounds) and deploy.md (Cloudflare runbook)
 
 ## License
 
-[MIT](LICENSE) covers this project's code, eval harness and eval labels. The Bagel Policy itself belongs to Uptech Studio, and the names TypeSafe and Jev belong to their owners; none of them are part of that grant.
+[MIT](LICENSE) covers this project's code, eval harness and eval labels. The Bagel Policy belongs to Uptech Studio (UpTech Works, LLC), and the names Uptech, Uptech Studio, TypeSafe and Jev belong to their owners; none of them are part of that grant. [NOTICE](NOTICE) spells this out.
 
 Release notes are in [CHANGELOG.md](CHANGELOG.md).

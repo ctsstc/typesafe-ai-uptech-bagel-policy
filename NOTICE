@@ -1,0 +1,12 @@
+Bagel Review Board
+Copyright (c) 2026 Cody Swartz, released under the MIT License in LICENSE.
+
+Not covered by that license:
+
+- Quotations and paraphrases of the Uptech Studio Bagel Policy
+  (https://www.uptechstudio.com/bagels, copyright UpTech Works, LLC) in packages/core,
+  apps/web/src, eval/data and docs.
+- The names Uptech, Uptech Studio, TypeSafe and Jev, which belong to their respective owners.
+
+Made by an Uptech employee, not an official Uptech product. Not affiliated with or endorsed by
+TypeSafe.
