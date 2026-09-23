@@ -1,6 +1,9 @@
 import { QUESTION_SET_VERSION } from "./questions";
 
 export const RULE_PATH = "/api/rule";
+export const SESSION_PATH = "/api/session";
+// The widget and siteverify must agree on it, or every real token is rejected.
+export const TURNSTILE_ACTION = "session";
 export const MAX_ORDER_LENGTH = 120;
 
 export function normalizeOrder(raw: string): string {
@@ -33,10 +36,26 @@ export function ruleUrl(order: string): string {
   return `${RULE_PATH}?${ruleQuery(order)}`;
 }
 
+function canonicalOrder(order: string | null): order is string {
+  return order !== null && order === normalizeOrder(order) && hasUsableText(order);
+}
+
 // Server side: accept only the exact canonical query string, so every cache key maps to one billed request.
 export function parseRuleQuery(rawSearch: string): string | null {
   const search = rawSearch.replace(/^\?/, "");
   const order = new URLSearchParams(search).get("order");
-  if (order === null || order !== normalizeOrder(order) || !hasUsableText(order)) return null;
+  if (!canonicalOrder(order)) return null;
   return search === ruleQuery(order) ? order : null;
+}
+
+/** True for a query that is canonical except that `v` is another question set: a tab from another deploy. */
+export function isStaleRuleQuery(rawSearch: string): boolean {
+  const search = rawSearch.replace(/^\?/, "");
+  const params = new URLSearchParams(search);
+  const order = params.get("order");
+  const version = params.get("v");
+  if (!canonicalOrder(order) || version === null || version === QUESTION_SET_VERSION) return false;
+  return (
+    /^\d{1,4}$/.test(version) && search === new URLSearchParams({ order, v: version }).toString()
+  );
 }

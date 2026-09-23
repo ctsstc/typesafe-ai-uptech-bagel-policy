@@ -14,9 +14,13 @@ const BASE_HEADERS = {
 
 const ERROR_MESSAGES: Record<RuleErrorCode, string> = {
   bad_request: "That is not a canonical ruling request.",
+  challenge_required: "New rulings need a quick human check first.",
   not_found: "No such API route.",
   method_not_allowed: "That method is not supported here.",
+  stale_client: "This page is from another version of the board. Reload it.",
   rate_limited: "Too many new rulings at once. Try again in a moment.",
+  client_limit: "This network has used up today's new rulings. Orders already ruled on still work.",
+  daily_limit: "The board has used up today's new rulings. Orders already ruled on still work.",
   upstream_busy: "Jev is busy right now. Try again shortly.",
   upstream_error: "Jev could not rule on that right now.",
   timeout: "Jev took too long to rule. Try again.",

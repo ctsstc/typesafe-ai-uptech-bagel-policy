@@ -1,11 +1,14 @@
 export {
   hasUsableText,
+  isStaleRuleQuery,
   MAX_ORDER_LENGTH,
   normalizeOrder,
   parseRuleQuery,
   RULE_PATH,
   ruleQuery,
   ruleUrl,
+  SESSION_PATH,
+  TURNSTILE_ACTION,
 } from "./input";
 export { MOCK_DECLINE_TRIGGER, mockPolicyResponse } from "./mock";
 export {
