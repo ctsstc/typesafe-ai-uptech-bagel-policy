@@ -1,8 +1,9 @@
-export const EXAMPLES = [
-  "everything bagel, plain schmear, lox, capers, red onion",
-  "asiago bagel with scallion cream cheese",
-  "plain bagel with avocado",
-  "cinnamon raisin with strawberry cream cheese",
-  "bacon egg and cheese on an everything bagel",
-  "sesame bagel with peanut butter and banana",
-] as const;
+export const EXAMPLES: readonly { order: string; note?: string }[] = [
+  { order: "bagel with vanilla cream cheese", note: "The incident that started the policy" },
+  { order: "everything bagel, plain schmear, lox, capers, red onion" },
+  { order: "asiago bagel with scallion cream cheese" },
+  { order: "plain bagel with avocado" },
+  { order: "cinnamon raisin with strawberry cream cheese" },
+  { order: "bacon egg and cheese on an everything bagel" },
+  { order: "sesame bagel with peanut butter and banana" },
+];

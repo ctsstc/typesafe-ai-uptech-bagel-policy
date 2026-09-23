@@ -118,17 +118,18 @@ export function App() {
             </button>
           </div>
           <ul className="examples" aria-label="Examples">
-            {EXAMPLES.map((example) => (
-              <li key={example}>
+            {EXAMPLES.map(({ order, note }) => (
+              <li key={order}>
                 <button
                   type="button"
                   className="chip"
+                  title={note}
                   onClick={() => {
-                    setText(example);
-                    void submit(example);
+                    setText(order);
+                    void submit(order);
                   }}
                 >
-                  {example}
+                  {order}
                 </button>
               </li>
             ))}

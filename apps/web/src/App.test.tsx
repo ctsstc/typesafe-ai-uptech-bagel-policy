@@ -1,5 +1,5 @@
 import { mockPolicyResponse, ruleUrl } from "@bagel/core";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { App } from "./App";
@@ -108,6 +108,16 @@ describe("errors", () => {
     expect(
       await screen.findByText(/New rulings open again (tomorrow )?at .+ your time\./),
     ).toBeInTheDocument();
+  });
+});
+
+describe("examples", () => {
+  it("leads with the vanilla cream cheese incident the policy was written after", () => {
+    vi.stubGlobal("fetch", async () => Response.json({}));
+    render(<App />);
+    const [first] = within(screen.getByRole("list", { name: "Examples" })).getAllByRole("button");
+    expect(first).toHaveTextContent("bagel with vanilla cream cheese");
+    expect(first).toHaveAttribute("title", "The incident that started the policy");
   });
 });
 
