@@ -46,6 +46,13 @@ wrangler() {
 [[ -z "$(git status --porcelain)" ]] || fail "working tree is dirty; commit or remove changes first."
 [[ "$(git branch --show-current)" == "$BRANCH" ]] || fail "production deploys run from $BRANCH only."
 
+# The footer links to the repo, and GitHub answers 404 while it is private.
+source_url="$(sed -n 's/^export const SOURCE_URL = "\(.*\)";$/\1/p' "$web/src/lib/links.ts")"
+[[ -n "$source_url" ]] || fail "could not read SOURCE_URL from apps/web/src/lib/links.ts."
+source_status="$(curl -s -o /dev/null -L --max-time 15 -w '%{http_code}' "$source_url" || true)"
+[[ "$source_status" == "200" ]] ||
+  fail "$source_url answered ${source_status:-nothing}; push $BRANCH and make the repo public first, since the site links to it."
+
 # Every remote command below uses the gitignored wrangler.production.jsonc, which carries the real
 # KV and D1 ids from the root .env in place of the committed placeholders.
 readonly PRODUCTION_CONFIG="wrangler.production.jsonc"
