@@ -1,0 +1,55 @@
+/* Palette sampled from uptechstudio.com/bagels. */
+:root {
+  --navy: #002133;
+  --navy-2: #0a3149;
+  --sky: #2eb4ff;
+  --sky-ink: #00263b;
+  --violet: #7551f8;
+  --mist: #e5e7eb;
+
+  --bg: #ffffff;
+  --surface: #f6f8fa;
+  --ink: #444d5a;
+  --ink-strong: #1f2733;
+  --line: #dde2e8;
+  --link: var(--violet);
+
+  --proper: #13795b;
+  --acceptable: #2a6fb0;
+  --borderline: #9a6700;
+  --violation: #c23a2b;
+  --just-stop: #8a1538;
+
+  --font: "Mulish Variable", "Mulish", system-ui, sans-serif;
+  --radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #04131d;
+    --surface: #0b2232;
+    --ink: #c9d1db;
+    --ink-strong: #f2f5f8;
+    --line: #1d3a4e;
+    --link: #a996ff;
+    --proper: #4cc59a;
+    --acceptable: #6fb3ff;
+    --borderline: #e0b04a;
+    --violation: #ff7a6b;
+    --just-stop: #ff6f98;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #04131d;
+  --surface: #0b2232;
+  --ink: #c9d1db;
+  --ink-strong: #f2f5f8;
+  --line: #1d3a4e;
+  --link: #a996ff;
+  --proper: #4cc59a;
+  --acceptable: #6fb3ff;
+  --borderline: #e0b04a;
+  --violation: #ff7a6b;
+  --just-stop: #ff6f98;
+}
