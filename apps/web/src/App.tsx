@@ -1,10 +1,12 @@
 import { hasUsableText, MAX_ORDER_LENGTH, normalizeOrder } from "@bagel/core";
-import { type FormEvent, useRef, useState } from "react";
+import { type FormEvent, useEffect, useEffectEvent, useRef, useState } from "react";
 import { BagelOutlines } from "./components/BagelOutlines";
 import { RulingCard } from "./components/RulingCard";
+import { ShareBar } from "./components/ShareBar";
 import { fetchRuling, type RuleOutcome } from "./lib/api";
 import { EXAMPLES } from "./lib/examples";
 import { AUTHOR_URL, POLICY_URL, TYPESAFE_URL } from "./lib/links";
+import { orderFromSearch, orderHref } from "./lib/url";
 
 type State =
   | { status: "idle" }
@@ -16,15 +18,41 @@ export function App() {
   const [state, setState] = useState<State>({ status: "idle" });
   const inflight = useRef<AbortController | null>(null);
 
-  async function submit(raw: string) {
+  const loadFromUrl = useEffectEvent(() => {
+    const order = orderFromSearch(window.location.search);
+    if (order === null) {
+      inflight.current?.abort();
+      setText("");
+      setState({ status: "idle" });
+      return;
+    }
+    setText(order);
+    void submit(order, { push: false });
+  });
+
+  useEffect(() => {
+    loadFromUrl();
+    const onPopState = () => loadFromUrl();
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  async function submit(raw: string, { push = true } = {}) {
     const order = normalizeOrder(raw);
     if (!hasUsableText(order)) return;
+    const href = orderHref(order);
+    if (push && `${window.location.pathname}${window.location.search}` !== href) {
+      window.history.pushState(null, "", href);
+    }
     inflight.current?.abort();
     const controller = new AbortController();
     inflight.current = controller;
     setState({ status: "loading", order });
     try {
       const outcome = await fetchRuling(order, controller.signal);
+      // Keep a declined order out of the address bar and history.
+      if (outcome.ok && outcome.result.kind === "declined")
+        window.history.replaceState(null, "", "/");
       setState({ status: "done", order, outcome });
     } catch {
       // Superseded by a newer submission.
@@ -96,7 +124,10 @@ export function App() {
           {state.status === "loading" && <p className="pending">The board is deliberating…</p>}
           {state.status === "done" &&
             (state.outcome.ok ? (
-              <RulingCard result={state.outcome.result} mock={state.outcome.mock} />
+              <>
+                <RulingCard result={state.outcome.result} mock={state.outcome.mock} />
+                <ShareBar order={state.order} result={state.outcome.result} />
+              </>
             ) : (
               <p className="error">{state.outcome.message}</p>
             ))}

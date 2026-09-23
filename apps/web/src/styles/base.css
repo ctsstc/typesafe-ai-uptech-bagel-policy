@@ -309,3 +309,41 @@ input:focus-visible {
 .footer a {
   color: #fff;
 }
+
+.button-secondary {
+  background: transparent;
+  color: var(--ink-strong);
+  box-shadow: inset 0 0 0 2px var(--sky);
+}
+
+.share {
+  margin-top: 16px;
+}
+
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.share-status {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.share-fallback {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 15px;
+}
+
+.share-fallback input {
+  font: 400 15px / 1.4 var(--font);
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink-strong);
+}

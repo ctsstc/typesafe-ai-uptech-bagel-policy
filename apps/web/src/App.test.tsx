@@ -19,3 +19,49 @@ describe("App", () => {
     expect(fetch).toHaveBeenCalledWith(ruleUrl("plain bagel with lox"), expect.anything());
   });
 });
+
+describe("share links", () => {
+  it("rules on the order in the URL and pushes new orders", async () => {
+    window.history.replaceState(null, "", "/?order=plain+bagel");
+    vi.stubGlobal("fetch", async (url: string) => {
+      const order = new URL(url, "http://x").searchParams.get("order") ?? "";
+      return Response.json({ ...mockPolicyResponse(order), mock: true });
+    });
+    render(<App />);
+
+    expect(await screen.findByRole("heading", { name: "Proper" })).toBeInTheDocument();
+    expect(screen.getByLabelText("What are you bringing?")).toHaveValue("plain bagel");
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "cinnamon raisin with strawberry cream cheese" }),
+    );
+    expect(await screen.findByRole("heading", { name: "Violation" })).toBeInTheDocument();
+    expect(window.location.search).toBe("?order=cinnamon+raisin+with+strawberry+cream+cheese");
+  });
+
+  it("copies the link", async () => {
+    window.history.replaceState(null, "", "/?order=plain+bagel");
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ ...mockPolicyResponse("plain bagel"), mock: true }),
+    );
+    const writeText = vi.fn(async () => {});
+    Object.defineProperty(navigator, "clipboard", { value: { writeText }, configurable: true });
+    render(<App />);
+
+    await userEvent.click(await screen.findByRole("button", { name: "Copy link" }));
+    expect(writeText).toHaveBeenCalledWith(`${window.location.origin}/?order=plain+bagel`);
+    expect(screen.getByText("Link copied.")).toBeInTheDocument();
+  });
+
+  it("keeps a declined order out of the URL and offers no share", async () => {
+    window.history.replaceState(null, "", "/?order=slur+bagel");
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ ...mockPolicyResponse("slur bagel"), mock: true }),
+    );
+    render(<App />);
+
+    expect(await screen.findByText("The board declines to review that.")).toBeInTheDocument();
+    expect(window.location.search).toBe("");
+    expect(screen.queryByRole("button", { name: "Copy link" })).toBeNull();
+  });
+});
