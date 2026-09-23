@@ -61,6 +61,16 @@ function sectionRuling(section: SectionId, response: PolicyResponse): SectionRul
   };
 }
 
+// The policy treats bagels delivered as sandwiches as a failure, and sun-dried tomatoes as merely improper.
+export function verdictOf(severities: readonly (Severity | null)[], sandwich: boolean): VerdictId {
+  const worst = Math.max(
+    SEVERITY.proper,
+    ...severities.map((s) => s ?? SEVERITY.proper),
+    sandwich ? SEVERITY.violation : SEVERITY.proper,
+  ) as Severity;
+  return VERDICT_BY_SEVERITY[worst];
+}
+
 export function toPolicyResult(order: string, response: PolicyResponse): PolicyResult {
   const { answers, model } = response;
   if (answers.is_abusive.noul >= THRESHOLDS.abusive) return { kind: "declined", model };
@@ -70,17 +80,14 @@ export function toPolicyResult(order: string, response: PolicyResponse): PolicyR
 
   const sections = SECTION_IDS.map((id) => sectionRuling(id, response));
   const sandwich = answers.is_sandwich.noul >= THRESHOLDS.sandwich;
-  // The policy treats bagels delivered as sandwiches as a failure, and sun-dried tomatoes as merely improper.
-  const worst = Math.max(
-    SEVERITY.proper,
-    ...sections.map((s) => s.severity ?? SEVERITY.proper),
-    sandwich ? SEVERITY.violation : SEVERITY.proper,
-  ) as Severity;
 
   return {
     kind: "ruling",
     order,
-    verdict: VERDICT_BY_SEVERITY[worst],
+    verdict: verdictOf(
+      sections.map((s) => s.severity),
+      sandwich,
+    ),
     sections,
     sandwich,
     sunDried: answers.sun_dried_tomatoes.noul >= THRESHOLDS.sunDried,

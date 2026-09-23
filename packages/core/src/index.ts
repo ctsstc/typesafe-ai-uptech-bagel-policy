@@ -45,6 +45,7 @@ export {
   type RulingResult,
   type SectionRuling,
   toPolicyResult,
+  verdictOf,
 } from "./result";
 export {
   CLIENT_TIMEOUT_MS,
