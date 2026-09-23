@@ -44,11 +44,17 @@ let initial = "";
 beforeAll(async () => {
   // Vite keeps an existing NODE_ENV, and Vitest's "test" would bundle React's development build.
   const nodeEnv = process.env.NODE_ENV;
+  const sitekey = process.env.VITE_TURNSTILE_SITE_KEY;
   process.env.NODE_ENV = "production";
+  // Production always bakes in a sitekey. Without one the check is dead code and never ships,
+  // so pin Cloudflare's test key instead of depending on whatever a local .env holds.
+  process.env.VITE_TURNSTILE_SITE_KEY = "1x00000000000000000000AA";
   try {
     await build({ root, logLevel: "silent", build: { outDir, emptyOutDir: true } });
   } finally {
     process.env.NODE_ENV = nodeEnv;
+    if (sitekey === undefined) delete process.env.VITE_TURNSTILE_SITE_KEY;
+    else process.env.VITE_TURNSTILE_SITE_KEY = sitekey;
   }
   shipped = readTree(outDir);
   initial = initialScripts(readFileSync(join(outDir, "index.html"), "utf8"))
