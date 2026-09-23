@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "bagel-review-board",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-09-22",
+  // Placeholder id. Local dev uses a local stand-in; create a real namespace before the first deploy.
+  "kv_namespaces": [{ "binding": "RULINGS", "id": "00000000000000000000000000000000" }],
+  "dev": { "port": 8788 }
+}
