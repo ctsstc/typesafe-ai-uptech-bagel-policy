@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-09-23
+
+### Fixed
+
+- On a phone the ruling no longer lands below the fold unseen. Submitting an order, tapping an example or opening a shared link scrolls the ruling into view (instantly when reduced motion is on), and the on-screen keyboard closes on submit.
+
 ## [0.2.1] - 2026-09-23
 
 ### Fixed
