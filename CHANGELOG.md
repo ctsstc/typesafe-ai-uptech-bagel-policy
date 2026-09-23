@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-23
+
+### Added
+
+- **Link previews.** Shared links unfurl with a ruling card for Exhibit A, a bagel with vanilla cream cheese ruled a Violation, drawn in the site's own style. Open Graph and Twitter tags carry absolute URLs, and there is a home screen icon. `pnpm --filter @bagel/web og` re-renders both from `apps/web/og/`.
+- **The founding incident.** The vanilla cream cheese chip is labelled "Where it all began", and any ruling on a vanilla cream cheese Jev grades as sweet gets a Precedent callout linking the policy.
+
 ## [0.1.0] - 2026-09-23
 
 First production release, live at https://bagel-review-board.pages.dev.
