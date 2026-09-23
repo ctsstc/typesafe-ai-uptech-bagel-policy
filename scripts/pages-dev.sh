@@ -20,4 +20,10 @@ if [[ ! -d "$web/$assets" ]]; then
 fi
 
 cd "$web"
+# The Function refuses Jev calls when the spend-cap tables are missing, so keep the local D1 current.
+if ! migrated="$(pnpm exec wrangler d1 migrations apply bagel-review-board --local 2>&1)"; then
+  echo "$migrated" >&2
+  exit 1
+fi
+
 exec pnpm exec wrangler pages dev "$assets" --kv RULINGS --show-interactive-dev-session=false "$@"

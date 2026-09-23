@@ -1,9 +1,11 @@
 import {
   buildPolicyRequest,
   isRuleResponse,
+  isStaleRuleQuery,
   mockPolicyResponse,
   parseRuleQuery,
   QUESTION_SET_VERSION,
+  RULE_ERROR_CODES,
   type RuleErrorCode,
   type RuleResponse,
   ruleUrl,
@@ -17,9 +19,11 @@ import {
   TypeSafeClient,
   TypeSafeError,
 } from "@typesafe-ai/sdk";
-import { clientIp, type Env, type WaitUntil } from "./env";
+import { clientNetwork, type Env, type WaitUntil } from "./env";
 import { CACHE_IMMUTABLE, CACHE_NONE, errorResponse, jsonResponse } from "./http";
 import { createRateLimiter, type RateLimiter } from "./rate-limit";
+import { clientKey, requireSession } from "./session";
+import { recordInputTokens, refuseSpent, reserveJevCall, utcDay } from "./usage";
 
 export type { Env } from "./env";
 
@@ -46,7 +50,11 @@ class UnexpectedUpstreamShape extends Error {
 export function createRuleHandler(
   limiter: RateLimiter = createRateLimiter({ limit: LIVE_CALLS_PER_MINUTE, windowMs: 60_000 }),
 ) {
-  return async function handleRule(request: Request, env: Env, waitUntil: WaitUntil) {
+  return async function handleRule(
+    request: Request,
+    env: Env,
+    waitUntil: WaitUntil,
+  ): Promise<Response> {
     try {
       return await rule(request, env, waitUntil, limiter);
     } catch (error) {
@@ -67,10 +75,15 @@ async function rule(
   }
   const url = new URL(request.url);
   const order = parseRuleQuery(url.search);
-  if (order === null) return errorResponse("bad_request");
+  if (order === null) {
+    return errorResponse(isStaleRuleQuery(url.search) ? "stale_client" : "bad_request");
+  }
 
+  const now = Date.now();
   const apiKey = env.TYPESAFE_API_KEY?.trim();
   if (!apiKey) {
+    const session = await requireSession(request, env, now);
+    if (session instanceof Response) return session;
     const body: RuleResponse = { ...mockPolicyResponse(order), mock: true };
     return jsonResponse(JSON.stringify(body), { cacheControl: CACHE_NONE });
   }
@@ -90,31 +103,50 @@ async function rule(
     return jsonResponse(stored, { cacheControl: CACHE_IMMUTABLE, cache: "KV" });
   }
 
-  const wait = limiter.take(clientIp(request), Date.now());
+  const client = await clientKey(request, env, utcDay(now));
+  const session = await requireSession(request, env, now);
+  if (session instanceof Response) {
+    if (session.status !== RULE_ERROR_CODES.challenge_required) return session;
+    return (await refuseSpent(env, client, now)) ?? session;
+  }
+
+  const wait = limiter.take(clientNetwork(request), now);
   if (wait > 0) return errorResponse("rate_limited", { headers: { "Retry-After": String(wait) } });
 
+  const refused = await reserveJevCall(env, { session, client }, now);
+  if (refused) return refused;
+
   let body: string;
+  let tokens = 0;
   try {
-    const client = new TypeSafeClient({
+    const jev = new TypeSafeClient({
       apiKey,
       baseURL: TYPESAFE_BASE_URL,
       timeout: JEV_ATTEMPT_TIMEOUT_MS,
       retry: JEV_RETRY,
       logLevel: "off",
     });
-    const result: unknown = await client.systemOne(buildPolicyRequest(order), {
+    const result: unknown = await jev.systemOne(buildPolicyRequest(order), {
       signal: AbortSignal.timeout(JEV_DEADLINE_MS),
     });
+    tokens = inputTokens(result);
     // Anything cached here is immutable for a year, so never cache a malformed 200.
     if (!isRuleResponse(result)) throw new UnexpectedUpstreamShape();
     body = JSON.stringify({ model: result.model, answers: result.answers });
   } catch (error) {
+    background(waitUntil, "token count", recordInputTokens(env, tokens, now));
     return upstreamFailure(error);
   }
 
   background(waitUntil, "cache put", fillCache(body));
   background(waitUntil, "kv put", env.RULINGS?.put(kvKey, body));
+  background(waitUntil, "token count", recordInputTokens(env, tokens, now));
   return jsonResponse(body, { cacheControl: CACHE_IMMUTABLE, cache: "MISS" });
+}
+
+function inputTokens(result: unknown): number {
+  const tokens = (result as { usage?: { input_tokens?: unknown } } | null)?.usage?.input_tokens;
+  return typeof tokens === "number" && Number.isSafeInteger(tokens) && tokens > 0 ? tokens : 0;
 }
 
 async function settle<T>(promise: Promise<T> | undefined): Promise<T | undefined> {

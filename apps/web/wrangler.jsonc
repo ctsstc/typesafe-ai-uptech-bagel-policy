@@ -3,7 +3,21 @@
   "name": "bagel-review-board",
   "pages_build_output_dir": "./dist",
   "compatibility_date": "2026-09-22",
-  // Placeholder id. Local dev uses a local stand-in; create a real namespace before the first deploy.
+  // Placeholder ids. Local dev and tests use local stand-ins; scripts/cloudflare-config.mjs writes the
+  // real ids from the root .env into the gitignored wrangler.production.jsonc for remote commands.
   "kv_namespaces": [{ "binding": "RULINGS", "id": "00000000000000000000000000000000" }],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bagel-review-board",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    // Jev calls allowed per UTC day. "0" stops every new ruling. Keep it at or under the Free
+    // plan's 1,000 KV writes a day, or later rulings go unstored and get billed again.
+    "DAILY_CALL_LIMIT": "1000"
+  },
   "dev": { "port": 8788 }
 }

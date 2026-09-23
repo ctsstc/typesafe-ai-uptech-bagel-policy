@@ -5,5 +5,5 @@
     "types": ["@cloudflare/workers-types"]
   },
   "include": ["**/*.ts"],
-  "exclude": ["**/*.test.ts", "vitest.config.ts"]
+  "exclude": ["**/*.test.ts", "_lib/fake-d1.ts", "vitest.config.ts"]
 }

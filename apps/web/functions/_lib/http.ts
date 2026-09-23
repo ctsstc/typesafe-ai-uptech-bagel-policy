@@ -52,11 +52,22 @@ export function jsonResponse(
   });
 }
 
+export function noContent(headers: Record<string, string>): Response {
+  const { "Content-Type": _json, ...base } = BASE_HEADERS;
+  return new Response(null, {
+    status: 204,
+    headers: { ...base, "Cache-Control": CACHE_NONE, ...headers },
+  });
+}
+
 export function errorResponse(
   code: RuleErrorCode,
-  { headers }: { headers?: Record<string, string> } = {},
+  {
+    message = ERROR_MESSAGES[code],
+    headers,
+  }: { message?: string; headers?: Record<string, string> } = {},
 ): Response {
-  const body: RuleErrorBody = { error: { code, message: ERROR_MESSAGES[code] } };
+  const body: RuleErrorBody = { error: { code, message } };
   return jsonResponse(JSON.stringify(body), {
     status: RULE_ERROR_CODES[code],
     cacheControl: CACHE_NONE,
