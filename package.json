@@ -1,0 +1,30 @@
+{
+  "name": "bagel-review-board",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": "^22.13.0 || ^24.0.0 || >=26.0.0"
+  },
+  "scripts": {
+    "dev": "concurrently --kill-others --names api,web --prefix-colors cyan,magenta \"pnpm dev:functions\" \"pnpm --filter @bagel/web exec vite\"",
+    "dev:functions": "bash scripts/pages-dev.sh",
+    "preview:pages": "pnpm --filter @bagel/web build && bash scripts/pages-dev.sh dist",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck && pnpm typecheck:functions",
+    "typecheck:functions": "tsc -p apps/web/functions/tsconfig.json && tsc -p apps/web/functions/tsconfig.test.json",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "check": "pnpm typecheck && pnpm lint && pnpm test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@types/node": "^24.0.0",
+    "concurrently": "^10.0.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.1"
+  }
+}
