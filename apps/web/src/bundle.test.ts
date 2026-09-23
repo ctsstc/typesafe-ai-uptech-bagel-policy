@@ -92,6 +92,15 @@ describe("production bundle", () => {
     expect(existsSync(join(outDir, "apple-touch-icon.png"))).toBe(true);
   });
 
+  it("keeps the descriptions short enough that previews do not truncate them", () => {
+    const html = readFileSync(join(outDir, "index.html"), "utf8");
+    const descriptions = [
+      ...html.matchAll(/<meta (?:name|property)="(?:og:|twitter:)?description" content="([^"]*)"/g),
+    ].map((m) => m[1] ?? "");
+    expect(descriptions).toHaveLength(3);
+    for (const text of descriptions) expect(text.length).toBeLessThanOrEqual(125);
+  });
+
   it("ships no source maps", () => {
     expect(shipped.includes("sourceMappingURL")).toBe(false);
   });
