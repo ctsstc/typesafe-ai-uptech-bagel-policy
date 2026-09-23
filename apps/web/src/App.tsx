@@ -22,10 +22,23 @@ type State =
   | { status: "loading"; order: string }
   | { status: "done"; order: string; outcome: RuleOutcome };
 
+function matches(query: string): boolean {
+  return typeof window.matchMedia === "function" && window.matchMedia(query).matches;
+}
+
+function scrollIntoViewTop(target: HTMLElement | null) {
+  target?.scrollIntoView({
+    behavior: matches("(prefers-reduced-motion: reduce)") ? "auto" : "smooth",
+    block: "start",
+  });
+}
+
 export function App() {
   const [text, setText] = useState("");
   const [state, setState] = useState<State>({ status: "idle" });
   const inflight = useRef<AbortController | null>(null);
+  const resultRef = useRef<HTMLElement>(null);
+  const revealPending = useRef(false);
   const checking = useSyncExternalStore(subscribeChecking, isChecking, () => false);
 
   const loadFromUrl = useEffectEvent(() => {
@@ -61,6 +74,7 @@ export function App() {
     const controller = new AbortController();
     inflight.current = controller;
     setState({ status: "loading", order });
+    showResult();
     try {
       const outcome = await fetchRuling(order, controller.signal);
       // Keep a declined order out of the address bar and history.
@@ -71,6 +85,22 @@ export function App() {
       // Superseded by a newer submission.
     }
   }
+
+  // On a phone the hero and form fill the screen, so a ruling would land below the fold unseen.
+  function showResult() {
+    if (document.activeElement instanceof HTMLInputElement && matches("(pointer: coarse)")) {
+      document.activeElement.blur();
+    }
+    revealPending.current = true;
+  }
+
+  // Scrolls once for the pending state and again when the card is in: the first scroll stops short
+  // while the page is still too short to bring the result to the top.
+  useEffect(() => {
+    if (state.status === "idle" || !revealPending.current) return;
+    if (state.status === "done") revealPending.current = false;
+    scrollIntoViewTop(resultRef.current);
+  }, [state]);
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -136,7 +166,7 @@ export function App() {
           </ul>
         </form>
 
-        <section aria-live="polite" className="result-slot">
+        <section ref={resultRef} aria-live="polite" className="result-slot">
           {state.status === "loading" && (
             <p className="pending">{checking ? WAITING_FOR_CHECK : "The board is deliberating…"}</p>
           )}

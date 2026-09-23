@@ -1,7 +1,7 @@
 import { mockPolicyResponse, ruleUrl } from "@bagel/core";
-import { render, screen, within } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
 
 describe("App", () => {
@@ -152,5 +152,70 @@ describe("footer", () => {
       "href",
       "https://github.com/ctsstc/typesafe-ai-uptech-bagel-policy",
     );
+  });
+});
+
+describe("showing the ruling", () => {
+  beforeEach(() => window.history.replaceState(null, "", "/"));
+
+  const media = (matching: string[]) =>
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: matching.includes(query),
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }));
+
+  const ruling = () =>
+    vi.stubGlobal("fetch", async (url: string) => {
+      const order = new URL(url, "http://x").searchParams.get("order") ?? "";
+      return Response.json({ ...mockPolicyResponse(order), mock: true });
+    });
+
+  it("scrolls the ruling into view when an order is submitted", async () => {
+    ruling();
+    media([]);
+    const scroll = vi.spyOn(Element.prototype, "scrollIntoView");
+    render(<App />);
+    expect(scroll).not.toHaveBeenCalled();
+
+    await userEvent.click(screen.getByRole("button", { name: /plain bagel with avocado/ }));
+    await waitFor(() =>
+      expect(scroll).toHaveBeenCalledWith({ behavior: "smooth", block: "start" }),
+    );
+    expect(scroll.mock.contexts.at(-1)).toHaveClass("result-slot");
+    // Once for the pending state, and again once the card has made the page tall enough.
+    expect(await screen.findByRole("heading", { name: "Borderline" })).toBeInTheDocument();
+    await waitFor(() => expect(scroll.mock.calls.length).toBeGreaterThanOrEqual(2));
+  });
+
+  it("jumps instead of gliding when the visitor prefers reduced motion", async () => {
+    ruling();
+    media(["(prefers-reduced-motion: reduce)"]);
+    const scroll = vi.spyOn(Element.prototype, "scrollIntoView");
+    window.history.replaceState(null, "", "/?order=plain+bagel");
+    render(<App />);
+    await waitFor(() => expect(scroll).toHaveBeenCalledWith({ behavior: "auto", block: "start" }));
+  });
+
+  it("closes the phone keyboard on submit, but keeps focus on a desktop", async () => {
+    ruling();
+    media(["(pointer: coarse)"]);
+    const { unmount } = render(<App />);
+    const input = screen.getByLabelText("What are you bringing?");
+    await userEvent.type(input, "plain bagel{Enter}");
+    expect(document.activeElement).not.toBe(input);
+    unmount();
+
+    media([]);
+    window.history.replaceState(null, "", "/");
+    render(<App />);
+    const desktopInput = screen.getByLabelText("What are you bringing?");
+    await userEvent.type(desktopInput, "plain bagel{Enter}");
+    expect(document.activeElement).toBe(desktopInput);
   });
 });

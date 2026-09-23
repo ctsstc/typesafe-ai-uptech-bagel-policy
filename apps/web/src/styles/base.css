@@ -187,6 +187,7 @@ input:focus-visible {
 }
 
 .result-slot {
+  scroll-margin-top: 16px;
   margin-top: 40px;
 }
 
