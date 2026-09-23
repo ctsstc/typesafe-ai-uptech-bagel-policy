@@ -1,0 +1,201 @@
+{
+  "questionSetVersion": "1",
+  "model": "jev-1.13.0",
+  "fingerprint": "8ebab39d47c44e6cba112219bc9e426e4215117f645f4441a6d65ac3ba841728",
+  "datasetSize": 51,
+  "missing": 0,
+  "splits": {
+    "canon": {
+      "n": 51,
+      "verdict": {
+        "right": 22,
+        "n": 51
+      },
+      "kind": {
+        "right": 51,
+        "n": 51
+      },
+      "bagel": {
+        "right": 49,
+        "n": 50
+      },
+      "spread": {
+        "right": 49,
+        "n": 50
+      },
+      "toppings": {
+        "right": 31,
+        "n": 50
+      },
+      "sandwich": {
+        "right": 29,
+        "n": 50
+      }
+    },
+    "tune": {
+      "n": 0,
+      "verdict": {
+        "right": 0,
+        "n": 0
+      },
+      "kind": {
+        "right": 0,
+        "n": 0
+      },
+      "bagel": {
+        "right": 0,
+        "n": 0
+      },
+      "spread": {
+        "right": 0,
+        "n": 0
+      },
+      "toppings": {
+        "right": 0,
+        "n": 0
+      },
+      "sandwich": {
+        "right": 0,
+        "n": 0
+      }
+    },
+    "holdout": {
+      "n": 0,
+      "verdict": {
+        "right": 0,
+        "n": 0
+      },
+      "kind": {
+        "right": 0,
+        "n": 0
+      },
+      "bagel": {
+        "right": 0,
+        "n": 0
+      },
+      "spread": {
+        "right": 0,
+        "n": 0
+      },
+      "toppings": {
+        "right": 0,
+        "n": 0
+      },
+      "sandwich": {
+        "right": 0,
+        "n": 0
+      }
+    },
+    "all": {
+      "n": 51,
+      "verdict": {
+        "right": 22,
+        "n": 51
+      },
+      "kind": {
+        "right": 51,
+        "n": 51
+      },
+      "bagel": {
+        "right": 49,
+        "n": 50
+      },
+      "spread": {
+        "right": 49,
+        "n": 50
+      },
+      "toppings": {
+        "right": 31,
+        "n": 50
+      },
+      "sandwich": {
+        "right": 29,
+        "n": 50
+      }
+    }
+  },
+  "sandwichSweep": [
+    {
+      "threshold": 0.3,
+      "tune": {
+        "right": 0,
+        "n": 0
+      },
+      "canon": {
+        "right": 19,
+        "n": 51
+      }
+    },
+    {
+      "threshold": 0.4,
+      "tune": {
+        "right": 0,
+        "n": 0
+      },
+      "canon": {
+        "right": 21,
+        "n": 51
+      }
+    },
+    {
+      "threshold": 0.5,
+      "tune": {
+        "right": 0,
+        "n": 0
+      },
+      "canon": {
+        "right": 22,
+        "n": 51
+      }
+    },
+    {
+      "threshold": 0.6,
+      "tune": {
+        "right": 0,
+        "n": 0
+      },
+      "canon": {
+        "right": 26,
+        "n": 51
+      }
+    },
+    {
+      "threshold": 0.7,
+      "tune": {
+        "right": 0,
+        "n": 0
+      },
+      "canon": {
+        "right": 31,
+        "n": 51
+      }
+    },
+    {
+      "threshold": 0.8,
+      "tune": {
+        "right": 0,
+        "n": 0
+      },
+      "canon": {
+        "right": 37,
+        "n": 51
+      }
+    },
+    {
+      "threshold": 0.9,
+      "tune": {
+        "right": 0,
+        "n": 0
+      },
+      "canon": {
+        "right": 38,
+        "n": 51
+      }
+    }
+  ],
+  "maxAbusive": 0.01,
+  "declines": 0,
+  "avgInputTokens": 2273,
+  "p50LatencyMs": 177,
+  "costPerPassUsd": 0.004869
+}

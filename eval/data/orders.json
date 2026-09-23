@@ -1,0 +1,459 @@
+[
+  {
+    "order": "plain bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "onion bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "sesame bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "poppy seed bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "garlic bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "salt bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "everything bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "pumpernickel bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "rye bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "egg bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory or neutral bagels are proper."
+  },
+  {
+    "order": "asiago bagel",
+    "bagel": "acceptable",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: cheese baked in is acceptable but outside of canon."
+  },
+  {
+    "order": "jalapeño cheddar bagel",
+    "bagel": "acceptable",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: cheese baked in is acceptable but outside of canon."
+  },
+  {
+    "order": "cinnamon raisin bagel",
+    "bagel": "not_a_bagel",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: fruit or sweet bagels are not bagels."
+  },
+  {
+    "order": "blueberry bagel",
+    "bagel": "not_a_bagel",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: fruit or sweet bagels are not bagels."
+  },
+  {
+    "order": "chocolate chip bagel",
+    "bagel": "not_a_bagel",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: fruit or sweet bagels are not bagels."
+  },
+  {
+    "order": "pumpkin bagel",
+    "bagel": "not_a_bagel",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: fruit or sweet bagels are not bagels."
+  },
+  {
+    "order": "plain bagel with plain cream cheese",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: plain cream cheese is proper."
+  },
+  {
+    "order": "plain bagel with onion and chive cream cheese",
+    "bagel": "proper",
+    "spread": "acceptable",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory cream cheese is acceptable."
+  },
+  {
+    "order": "plain bagel with garlic herb cream cheese",
+    "bagel": "proper",
+    "spread": "acceptable",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory cream cheese is acceptable."
+  },
+  {
+    "order": "plain bagel with lox cream cheese",
+    "bagel": "proper",
+    "spread": "acceptable",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory cream cheese is acceptable."
+  },
+  {
+    "order": "plain bagel with jalapeño cream cheese",
+    "bagel": "proper",
+    "spread": "acceptable",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: savory cream cheese is acceptable."
+  },
+  {
+    "order": "plain bagel with garden veggie cream cheese",
+    "bagel": "proper",
+    "spread": "garden_veggie",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: garden veggie cream cheese is a no."
+  },
+  {
+    "order": "plain bagel with vanilla cream cheese",
+    "bagel": "proper",
+    "spread": "sweet",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: no sweet cream cheese."
+  },
+  {
+    "order": "plain bagel with honey cream cheese",
+    "bagel": "proper",
+    "spread": "sweet",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: no sweet cream cheese."
+  },
+  {
+    "order": "plain bagel with strawberry cream cheese",
+    "bagel": "proper",
+    "spread": "sweet",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: no sweet cream cheese."
+  },
+  {
+    "order": "everything bagel with cream cheese and nova lox",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "proper",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: lox, red onion, capers and tomato are the proper toppings."
+  },
+  {
+    "order": "everything bagel with cream cheese and red onion",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "proper",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: lox, red onion, capers and tomato are the proper toppings."
+  },
+  {
+    "order": "everything bagel with cream cheese and capers",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "proper",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: lox, red onion, capers and tomato are the proper toppings."
+  },
+  {
+    "order": "everything bagel with cream cheese and tomato",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "proper",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: lox, red onion, capers and tomato are the proper toppings."
+  },
+  {
+    "order": "everything bagel with plain cream cheese, nova lox, red onion, capers and tomato",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "proper",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: every proper choice at once."
+  },
+  {
+    "order": "everything bagel with cream cheese and yellow onion",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "acceptable",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: acceptable topping."
+  },
+  {
+    "order": "everything bagel with cream cheese and white onion",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "acceptable",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: acceptable topping."
+  },
+  {
+    "order": "everything bagel with cream cheese and fresh dill",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "acceptable",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: acceptable topping."
+  },
+  {
+    "order": "everything bagel with cream cheese and chives",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "acceptable",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: acceptable topping."
+  },
+  {
+    "order": "everything bagel with cream cheese and smoked whitefish",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "acceptable",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: acceptable topping."
+  },
+  {
+    "order": "everything bagel with cream cheese and avocado",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "borderline",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: borderline topping, wrong strictly speaking but some believe it has its place."
+  },
+  {
+    "order": "everything bagel with cream cheese and cheese",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "borderline",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: borderline topping, wrong strictly speaking but some believe it has its place."
+  },
+  {
+    "order": "everything bagel with cream cheese and cucumber",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "borderline",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: borderline topping, wrong strictly speaking but some believe it has its place."
+  },
+  {
+    "order": "everything bagel with cream cheese and bacon",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "borderline",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: borderline topping, wrong strictly speaking but some believe it has its place."
+  },
+  {
+    "order": "everything bagel with cream cheese and carrot slices",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "misc_vegetables",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: misc vegetables are a no."
+  },
+  {
+    "order": "everything bagel with cream cheese and spinach",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "misc_vegetables",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: misc vegetables are a no."
+  },
+  {
+    "order": "plain bagel with peanut butter",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "just_stop",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: just stop."
+  },
+  {
+    "order": "plain bagel with jelly",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "just_stop",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: just stop."
+  },
+  {
+    "order": "plain bagel with chocolate chips",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "just_stop",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: just stop."
+  },
+  {
+    "order": "plain bagel with banana",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": "just_stop",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: just stop."
+  },
+  {
+    "order": "everything bagel with cream cheese and sun-dried tomatoes",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": ["acceptable", "borderline"],
+    "sandwich": false,
+    "sunDried": true,
+    "source": "policy",
+    "note": "Policy: sun-dried tomatoes are not strictly proper but not subject to disciplinary action."
+  },
+  {
+    "order": "open-faced everything bagel with cream cheese and lox",
+    "bagel": "proper",
+    "spread": "proper",
+    "toppings": "proper",
+    "sandwich": false,
+    "source": "policy",
+    "note": "Policy: open face is the proper way to serve a bagel."
+  },
+  {
+    "order": "bacon egg and cheese sandwich on an everything bagel",
+    "bagel": "proper",
+    "spread": "none",
+    "toppings": ["borderline", "acceptable"],
+    "sandwich": true,
+    "source": "policy",
+    "note": "Policy: a bagel sandwich is more sandwich than bagel; bringing sandwiches when tasked with bagels is a failure."
+  },
+  {
+    "order": "bagel with vanilla cream cheese",
+    "bagel": "unspecified",
+    "spread": "sweet",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "incident",
+    "note": "The vanilla cream cheese incident the policy page cites."
+  },
+  {
+    "order": "cinnamon raisin",
+    "bagel": "not_a_bagel",
+    "spread": "none",
+    "toppings": "none",
+    "sandwich": false,
+    "source": "incident",
+    "note": "An office incident: cinnamon raisin named on its own, in a bagel context."
+  },
+  {
+    "order": "pb&j burger",
+    "kind": "other_food",
+    "source": "incident",
+    "note": "An office incident: it breaks the spirit of the policy, but no bagel is involved, so it is outside the board's jurisdiction."
+  }
+]
