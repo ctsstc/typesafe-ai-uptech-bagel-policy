@@ -1,0 +1,54 @@
+.challenge {
+  position: fixed;
+  z-index: 50;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  margin-inline: auto;
+  max-width: 380px;
+}
+
+.challenge[data-state="checking"] > :not(.challenge-widget) {
+  display: none;
+}
+
+.challenge[data-state="interactive"] {
+  display: grid;
+  gap: 12px;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px 20px 16px;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-top: 8px solid var(--sky);
+  border-radius: var(--radius);
+  box-shadow: 0 16px 40px rgb(0 33 51 / 0.28);
+}
+
+.challenge:focus {
+  outline: none;
+}
+
+.challenge:focus-visible {
+  outline: 3px solid var(--sky);
+  outline-offset: 2px;
+}
+
+.challenge-title {
+  font-size: 24px;
+}
+
+.challenge-body {
+  margin: 0;
+  font-size: 15px;
+}
+
+.challenge-widget {
+  min-width: 0;
+}
+
+.challenge-cancel {
+  justify-self: end;
+}

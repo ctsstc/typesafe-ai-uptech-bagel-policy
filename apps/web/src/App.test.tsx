@@ -65,3 +65,48 @@ describe("share links", () => {
     expect(screen.queryByRole("button", { name: "Copy link" })).toBeNull();
   });
 });
+
+describe("errors", () => {
+  const refuse = (code: string, status: number, headers: Record<string, string> = {}) =>
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ error: { code, message: "nope" } }, { status, headers }),
+    );
+
+  it("offers a reload when the page is from another deploy", async () => {
+    window.history.replaceState(null, "", "/?order=plain+bagel");
+    refuse("stale_client", 409);
+    render(<App />);
+
+    expect(await screen.findByText(/^The board was updated\./)).toBeInTheDocument();
+    const reload = vi.fn();
+    vi.spyOn(window, "location", "get").mockReturnValue({ ...window.location, reload });
+    await userEvent.click(screen.getByRole("button", { name: "Reload the page" }));
+    expect(reload).toHaveBeenCalledOnce();
+  });
+
+  it("says the board is swamped when Pages answers with the SPA shell", async () => {
+    window.history.replaceState(null, "", "/?order=plain+bagel");
+    vi.stubGlobal(
+      "fetch",
+      async () =>
+        new Response("<!doctype html><title>Bagel Review Board</title>", {
+          headers: { "content-type": "text/html" },
+        }),
+    );
+    render(<App />);
+
+    expect(await screen.findByText(/^The board is swamped\./)).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { level: 2 })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Reload the page" })).toBeNull();
+  });
+
+  it("says when new rulings open again after the daily limit", async () => {
+    window.history.replaceState(null, "", "/?order=plain+bagel");
+    refuse("daily_limit", 503, { "retry-after": "3600" });
+    render(<App />);
+
+    expect(
+      await screen.findByText(/New rulings open again (tomorrow )?at .+ your time\./),
+    ).toBeInTheDocument();
+  });
+});

@@ -1,9 +1,17 @@
 import { hasUsableText, MAX_ORDER_LENGTH, normalizeOrder } from "@bagel/core";
-import { type FormEvent, useEffect, useEffectEvent, useRef, useState } from "react";
+import {
+  type FormEvent,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { BagelOutlines } from "./components/BagelOutlines";
 import { RulingCard } from "./components/RulingCard";
 import { ShareBar } from "./components/ShareBar";
-import { fetchRuling, type RuleOutcome } from "./lib/api";
+import { fetchRuling, isChecking, type RuleOutcome, subscribeChecking } from "./lib/api";
+import { WAITING_FOR_CHECK } from "./lib/errors";
 import { EXAMPLES } from "./lib/examples";
 import { AUTHOR_URL, POLICY_URL, TYPESAFE_URL } from "./lib/links";
 import { orderFromSearch, orderHref } from "./lib/url";
@@ -17,6 +25,7 @@ export function App() {
   const [text, setText] = useState("");
   const [state, setState] = useState<State>({ status: "idle" });
   const inflight = useRef<AbortController | null>(null);
+  const checking = useSyncExternalStore(subscribeChecking, isChecking, () => false);
 
   const loadFromUrl = useEffectEvent(() => {
     const order = orderFromSearch(window.location.search);
@@ -34,7 +43,10 @@ export function App() {
     loadFromUrl();
     const onPopState = () => loadFromUrl();
     window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+      inflight.current?.abort();
+    };
   }, []);
 
   async function submit(raw: string, { push = true } = {}) {
@@ -61,6 +73,7 @@ export function App() {
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
+    if (state.status === "loading") return;
     void submit(text);
   }
 
@@ -98,7 +111,8 @@ export function App() {
               placeholder="everything bagel, plain schmear, lox, capers"
               autoComplete="off"
             />
-            <button className="button" type="submit" disabled={state.status === "loading"}>
+            {/* aria-disabled keeps the button focusable, so focus can return to it after the check. */}
+            <button className="button" type="submit" aria-disabled={state.status === "loading"}>
               Submit for review
             </button>
           </div>
@@ -121,7 +135,9 @@ export function App() {
         </form>
 
         <section aria-live="polite" className="result-slot">
-          {state.status === "loading" && <p className="pending">The board is deliberating…</p>}
+          {state.status === "loading" && (
+            <p className="pending">{checking ? WAITING_FOR_CHECK : "The board is deliberating…"}</p>
+          )}
           {state.status === "done" &&
             (state.outcome.ok ? (
               <>
@@ -129,7 +145,18 @@ export function App() {
                 <ShareBar order={state.order} result={state.outcome.result} />
               </>
             ) : (
-              <p className="error">{state.outcome.message}</p>
+              <div className="error-panel">
+                <p className="error">{state.outcome.message}</p>
+                {state.outcome.code === "stale_client" && (
+                  <button
+                    type="button"
+                    className="button button-secondary"
+                    onClick={() => window.location.reload()}
+                  >
+                    Reload the page
+                  </button>
+                )}
+              </div>
             ))}
         </section>
       </main>

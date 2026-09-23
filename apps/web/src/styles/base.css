@@ -42,7 +42,8 @@ h2 {
   filter: brightness(1.08);
 }
 
-.button:disabled {
+.button:disabled,
+.button[aria-disabled="true"] {
   opacity: 0.6;
   cursor: progress;
 }
@@ -182,6 +183,16 @@ input:focus-visible {
 
 .error {
   color: var(--violation);
+}
+
+.error-panel {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+}
+
+.error-panel .error {
+  margin: 0;
 }
 
 .card {
