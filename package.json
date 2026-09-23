@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "concurrently --kill-others --names api,web --prefix-colors cyan,magenta \"pnpm dev:functions\" \"pnpm --filter @bagel/web exec vite\"",
     "dev:functions": "bash scripts/pages-dev.sh",
+    "dev:challenge": "bash scripts/dev-challenge.sh",
     "preview:pages": "pnpm --filter @bagel/web build && bash scripts/pages-dev.sh dist",
     "build": "pnpm -r build",
     "typecheck": "pnpm -r typecheck && pnpm typecheck:functions",
@@ -19,7 +20,10 @@
     "format": "biome check --write .",
     "test": "vitest run",
     "check": "pnpm typecheck && pnpm lint && pnpm test",
-    "eval": "pnpm --filter @bagel/eval start"
+    "eval": "pnpm --filter @bagel/eval start",
+    "deploy:pages": "bash scripts/deploy.sh",
+    "spend": "node scripts/spend.mjs",
+    "migrate:remote": "node scripts/cloudflare-config.mjs >/dev/null && pnpm --filter @bagel/web exec wrangler d1 migrations apply bagel-review-board --remote -c wrangler.production.jsonc"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
