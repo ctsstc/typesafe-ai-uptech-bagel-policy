@@ -2,7 +2,7 @@
   "questionSetVersion": "1",
   "model": "jev-1.13.0",
   "fingerprint": "8ebab39d47c44e6cba112219bc9e426e4215117f645f4441a6d65ac3ba841728",
-  "datasetSize": 51,
+  "datasetSize": 190,
   "missing": 0,
   "splits": {
     "canon": {
@@ -33,84 +33,84 @@
       }
     },
     "tune": {
-      "n": 0,
+      "n": 76,
       "verdict": {
-        "right": 0,
-        "n": 0
+        "right": 43,
+        "n": 76
       },
       "kind": {
-        "right": 0,
-        "n": 0
+        "right": 73,
+        "n": 76
       },
       "bagel": {
-        "right": 0,
-        "n": 0
+        "right": 64,
+        "n": 65
       },
       "spread": {
-        "right": 0,
-        "n": 0
+        "right": 65,
+        "n": 65
       },
       "toppings": {
-        "right": 0,
-        "n": 0
+        "right": 34,
+        "n": 65
       },
       "sandwich": {
-        "right": 0,
-        "n": 0
+        "right": 39,
+        "n": 65
       }
     },
     "holdout": {
-      "n": 0,
+      "n": 63,
       "verdict": {
-        "right": 0,
-        "n": 0
+        "right": 35,
+        "n": 63
       },
       "kind": {
-        "right": 0,
-        "n": 0
+        "right": 62,
+        "n": 63
       },
       "bagel": {
-        "right": 0,
-        "n": 0
+        "right": 57,
+        "n": 58
       },
       "spread": {
-        "right": 0,
-        "n": 0
+        "right": 57,
+        "n": 58
       },
       "toppings": {
-        "right": 0,
-        "n": 0
+        "right": 39,
+        "n": 58
       },
       "sandwich": {
-        "right": 0,
-        "n": 0
+        "right": 33,
+        "n": 58
       }
     },
     "all": {
-      "n": 51,
+      "n": 190,
       "verdict": {
-        "right": 22,
-        "n": 51
+        "right": 100,
+        "n": 190
       },
       "kind": {
-        "right": 51,
-        "n": 51
+        "right": 186,
+        "n": 190
       },
       "bagel": {
-        "right": 49,
-        "n": 50
+        "right": 170,
+        "n": 173
       },
       "spread": {
-        "right": 49,
-        "n": 50
+        "right": 171,
+        "n": 173
       },
       "toppings": {
-        "right": 31,
-        "n": 50
+        "right": 104,
+        "n": 173
       },
       "sandwich": {
-        "right": 29,
-        "n": 50
+        "right": 101,
+        "n": 173
       }
     }
   },
@@ -118,8 +118,8 @@
     {
       "threshold": 0.3,
       "tune": {
-        "right": 0,
-        "n": 0
+        "right": 37,
+        "n": 76
       },
       "canon": {
         "right": 19,
@@ -129,8 +129,8 @@
     {
       "threshold": 0.4,
       "tune": {
-        "right": 0,
-        "n": 0
+        "right": 38,
+        "n": 76
       },
       "canon": {
         "right": 21,
@@ -140,8 +140,8 @@
     {
       "threshold": 0.5,
       "tune": {
-        "right": 0,
-        "n": 0
+        "right": 43,
+        "n": 76
       },
       "canon": {
         "right": 22,
@@ -151,8 +151,8 @@
     {
       "threshold": 0.6,
       "tune": {
-        "right": 0,
-        "n": 0
+        "right": 45,
+        "n": 76
       },
       "canon": {
         "right": 26,
@@ -162,8 +162,8 @@
     {
       "threshold": 0.7,
       "tune": {
-        "right": 0,
-        "n": 0
+        "right": 48,
+        "n": 76
       },
       "canon": {
         "right": 31,
@@ -173,8 +173,8 @@
     {
       "threshold": 0.8,
       "tune": {
-        "right": 0,
-        "n": 0
+        "right": 50,
+        "n": 76
       },
       "canon": {
         "right": 37,
@@ -184,8 +184,8 @@
     {
       "threshold": 0.9,
       "tune": {
-        "right": 0,
-        "n": 0
+        "right": 51,
+        "n": 76
       },
       "canon": {
         "right": 38,
@@ -193,9 +193,9 @@
       }
     }
   ],
-  "maxAbusive": 0.01,
+  "maxAbusive": 0.07,
   "declines": 0,
-  "avgInputTokens": 2273,
+  "avgInputTokens": 2275,
   "p50LatencyMs": 177,
-  "costPerPassUsd": 0.004869
+  "costPerPassUsd": 0.018155
 }
