@@ -4,6 +4,12 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-09-23
+
+### Fixed
+
+- Link previews no longer cut off the description: it is now 112 characters, under the roughly 125 that Slack, Discord and others show.
+
 ## [0.2.0] - 2026-09-23
 
 ### Added
