@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-23
+
+### Added
+
+- **Review another order.** A button under every ruling, declined order and error takes you back to the order box with the last order selected. On a stale page only Reload is offered.
+- **Visible progress.** The Submit button shows a spinner and "Reviewing…", and a placeholder card holds the order while the board deliberates.
+
+### Fixed
+
+- On phones the scroll to the ruling waits for the keyboard to finish closing, however the order was submitted (Enter, the Submit button or an example), and the result area reserves a screen of height so it lands at the top and does not jump when a short outcome arrives.
+- Screen readers hear "The board is deliberating…" without the order being read twice, and a declined order's text is never read aloud.
+
 ## [0.2.2] - 2026-09-23
 
 ### Fixed
