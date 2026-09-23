@@ -11,6 +11,12 @@ All notable changes to this project are documented here. The format follows [Kee
 - Shareable links: the address bar carries `?order=`, opening a link rules on that order, back and forward follow history, and Share ruling and Copy link buttons sit under each card. Declined orders are kept out of the URL and get no share buttons.
 - Edge and KV caching keyed by question set version, a per-IP rate limiter, and keyword mock rulings when no TypeSafe key is set.
 
+- An eval of 190 labelled orders (`pnpm eval`): canon from the policy page and three office incidents, plus tune and holdout sets labelled by agent consensus. Every live eval call is logged and capped by a fixed budget. See `docs/eval.md`.
+
+### Changed
+
+- Question set 3. The toppings question no longer grades the bagel's own flavor or the cream cheese as a topping, the sandwich question treats bagels as open-faced unless the order says otherwise, and orders that tell the board what to rule are treated as nonsense. `THRESHOLDS.sandwich` is now 0.8. Verdict accuracy went from 43% to 94% on canon and from 56% to 97% on holdout.
+
 ### Known issues
 
-- Jev reads some open-faced orders as sandwiches (`is_sandwich` 0.77 for "everything bagel with lox and capers"), which wrongly turns them into a Violation.
+- "egg bagel" is ruled Borderline because Jev reads the egg as a topping.

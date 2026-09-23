@@ -12,10 +12,17 @@ Describe a bagel and TypeSafe's Jev model rules on it under the [Uptech Studio B
 
 - `pnpm dev` runs Vite (5173) and the Function (8788). `pnpm --filter @bagel/web dev:mock` serves keyword mock rulings from Vite alone; type `mock 429` and friends for error states.
 - `pnpm check` runs typecheck, Biome and Vitest.
+- `pnpm eval` runs the labelled order set against Jev (see `docs/eval.md`). `pnpm eval -- --offline` rescores the cache for free; `--split=tune` limits live calls to one split.
+
+## Eval spend
+
+- Every live eval call is logged to `eval/results/spend.jsonl`. The runner refuses a run over `--max-usd` (default $0.05) or one that would push the ledger past `TOTAL_BUDGET_USD` in `eval/src/run.ts`. Raise that constant only when the user agrees to.
+- Tune against the tune split only. Look at holdout once per finished candidate and never iterate on its failures.
+- Never add a tune or holdout item's `novel` term to the questions. The dataset test fails if one leaks.
 
 ## Not ported yet
 
-Do not deploy until these land from the cube project: the Turnstile session (`functions/_lib/session.ts`), D1 spend caps (`usage.ts` and migrations), `scripts/deploy.sh` with its account guard, and an eval set.
+Do not deploy until these land from the cube project: the Turnstile session (`functions/_lib/session.ts`), D1 spend caps (`usage.ts` and migrations), `scripts/deploy.sh` with its account guard, and a build gate on the eval like the cube project's.
 
 ## Git workflow
 
