@@ -329,6 +329,14 @@ input:focus-visible {
   color: #fff;
 }
 
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
 .button-secondary {
   background: transparent;
   color: var(--ink-strong);

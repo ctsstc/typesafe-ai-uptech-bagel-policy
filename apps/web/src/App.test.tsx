@@ -118,7 +118,15 @@ describe("footer", () => {
     expect(
       screen.getByText(/Made by an Uptech employee, not an official Uptech product\./),
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Source on GitHub" })).toHaveAttribute(
+    expect(screen.getByText(/not affiliated with or endorsing this site/)).toBeInTheDocument();
+    expect(screen.getByText(/Built with/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Claude Code" })).toHaveAttribute(
+      "href",
+      "https://claude.com/claude-code",
+    );
+    expect(screen.getByRole("link", { name: "Cody Swartz on LinkedIn" })).toBeInTheDocument();
+    expect(screen.getByText("v0.0.0-test")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Source code on GitHub" })).toHaveAttribute(
       "href",
       "https://github.com/ctsstc/typesafe-ai-uptech-bagel-policy",
     );

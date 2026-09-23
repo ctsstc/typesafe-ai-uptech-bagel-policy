@@ -8,12 +8,13 @@ import {
   useSyncExternalStore,
 } from "react";
 import { BagelOutlines } from "./components/BagelOutlines";
+import { Footer } from "./components/Footer";
 import { RulingCard } from "./components/RulingCard";
 import { ShareBar } from "./components/ShareBar";
 import { fetchRuling, isChecking, type RuleOutcome, subscribeChecking } from "./lib/api";
 import { WAITING_FOR_CHECK } from "./lib/errors";
 import { EXAMPLES } from "./lib/examples";
-import { AUTHOR_URL, CLAUDE_CODE_URL, POLICY_URL, SOURCE_URL, TYPESAFE_URL } from "./lib/links";
+import { POLICY_URL } from "./lib/links";
 import { orderFromSearch, orderHref } from "./lib/url";
 
 type State =
@@ -161,17 +162,7 @@ export function App() {
         </section>
       </main>
 
-      <footer className="footer">
-        <p>
-          Made by an Uptech employee, not an official Uptech product. The{" "}
-          <a href={POLICY_URL}>Bagel Policy</a> is Uptech Studio's. Rulings by Jev from{" "}
-          <a href={TYPESAFE_URL}>TypeSafe</a>.
-        </p>
-        <p>
-          Made by <a href={AUTHOR_URL}>Cody Swartz</a> with{" "}
-          <a href={CLAUDE_CODE_URL}>Claude Code</a>. <a href={SOURCE_URL}>Source on GitHub</a>.
-        </p>
-      </footer>
+      <Footer />
     </>
   );
 }
