@@ -2,6 +2,7 @@ import type { PolicyResult } from "@bagel/core";
 import { useEffect, useRef, useState } from "react";
 import { shareText } from "../lib/share";
 import { shareUrl } from "../lib/url";
+import { AnotherButton } from "./AnotherButton";
 
 async function copyText(text: string): Promise<boolean> {
   try {
@@ -13,7 +14,15 @@ async function copyText(text: string): Promise<boolean> {
   }
 }
 
-export function ShareBar({ order, result }: { order: string; result: PolicyResult }) {
+export function ShareBar({
+  order,
+  result,
+  onAnother,
+}: {
+  order: string;
+  result: PolicyResult;
+  onAnother: () => void;
+}) {
   const [status, setStatus] = useState("");
   const [fallback, setFallback] = useState(false);
   const fallbackRef = useRef<HTMLInputElement>(null);
@@ -40,17 +49,20 @@ export function ShareBar({ order, result }: { order: string; result: PolicyResul
     }
   };
 
-  if (text === null) return null;
-
   return (
     <div className="share">
       <div className="share-buttons">
-        <button type="button" className="button" onClick={share}>
-          Share ruling
-        </button>
-        <button type="button" className="button button-secondary" onClick={copyLink}>
-          Copy link
-        </button>
+        {text !== null && (
+          <>
+            <button type="button" className="button" onClick={share}>
+              Share ruling
+            </button>
+            <button type="button" className="button button-secondary" onClick={copyLink}>
+              Copy link
+            </button>
+          </>
+        )}
+        <AnotherButton onClick={onAnother} />
         <output className="share-status" aria-live="polite">
           {status}
         </output>

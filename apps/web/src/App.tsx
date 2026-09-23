@@ -7,8 +7,10 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { AnotherButton } from "./components/AnotherButton";
 import { BagelOutlines } from "./components/BagelOutlines";
 import { Footer } from "./components/Footer";
+import { PendingCard } from "./components/PendingCard";
 import { RulingCard } from "./components/RulingCard";
 import { ShareBar } from "./components/ShareBar";
 import { fetchRuling, isChecking, type RuleOutcome, subscribeChecking } from "./lib/api";
@@ -26,19 +28,21 @@ function matches(query: string): boolean {
   return typeof window.matchMedia === "function" && window.matchMedia(query).matches;
 }
 
-function scrollIntoViewTop(target: HTMLElement | null) {
-  target?.scrollIntoView({
-    behavior: matches("(prefers-reduced-motion: reduce)") ? "auto" : "smooth",
-    block: "start",
-  });
+function scrollBehavior(): ScrollBehavior {
+  return matches("(prefers-reduced-motion: reduce)") ? "auto" : "smooth";
 }
+
+// iOS drops a scroll that starts while the on-screen keyboard is still animating closed.
+const KEYBOARD_CLOSE_MS = 350;
 
 export function App() {
   const [text, setText] = useState("");
   const [state, setState] = useState<State>({ status: "idle" });
   const inflight = useRef<AbortController | null>(null);
   const resultRef = useRef<HTMLElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const revealPending = useRef(false);
+  const keyboardClosedAt = useRef(0);
   const checking = useSyncExternalStore(subscribeChecking, isChecking, () => false);
 
   const loadFromUrl = useEffectEvent(() => {
@@ -94,13 +98,31 @@ export function App() {
     revealPending.current = true;
   }
 
-  // Scrolls once for the pending state and again when the card is in: the first scroll stops short
-  // while the page is still too short to bring the result to the top.
+  // Scrolls once for the pending card and again when the ruling replaces it, in case it grew.
   useEffect(() => {
     if (state.status === "idle" || !revealPending.current) return;
     if (state.status === "done") revealPending.current = false;
-    scrollIntoViewTop(resultRef.current);
+    const wait = Math.max(0, keyboardClosedAt.current + KEYBOARD_CLOSE_MS - performance.now());
+    const timer = setTimeout(
+      () => resultRef.current?.scrollIntoView({ behavior: scrollBehavior(), block: "start" }),
+      wait,
+    );
+    return () => clearTimeout(timer);
   }, [state]);
+
+  function reviewAnother() {
+    const input = inputRef.current;
+    if (!input) return;
+    // On a phone the keyboard opens with focus, and iOS only reveals the field itself when the
+    // focus call is allowed to scroll. A smooth scroll racing the keyboard would be dropped.
+    if (matches("(pointer: coarse)")) {
+      input.focus();
+    } else {
+      input.scrollIntoView({ behavior: scrollBehavior(), block: "center" });
+      input.focus({ preventScroll: true });
+    }
+    input.setSelectionRange(0, input.value.length);
+  }
 
   function onSubmit(event: FormEvent) {
     event.preventDefault();
@@ -135,7 +157,12 @@ export function App() {
           <label htmlFor="order">What are you bringing?</label>
           <div className="order-row">
             <input
+              ref={inputRef}
               id="order"
+              // A tap on Submit or an example blurs the field before the click, so time it here.
+              onBlur={() => {
+                if (matches("(pointer: coarse)")) keyboardClosedAt.current = performance.now();
+              }}
               value={text}
               maxLength={MAX_ORDER_LENGTH}
               onChange={(e) => setText(e.target.value)}
@@ -144,7 +171,14 @@ export function App() {
             />
             {/* aria-disabled keeps the button focusable, so focus can return to it after the check. */}
             <button className="button" type="submit" aria-disabled={state.status === "loading"}>
-              Submit for review
+              {state.status === "loading" ? (
+                <>
+                  <span className="spinner" aria-hidden="true" />
+                  Reviewing…
+                </>
+              ) : (
+                "Submit for review"
+              )}
             </button>
           </div>
           <ul className="examples" aria-label="Examples">
@@ -166,28 +200,42 @@ export function App() {
           </ul>
         </form>
 
-        <section ref={resultRef} aria-live="polite" className="result-slot">
+        <section
+          ref={resultRef}
+          aria-live="polite"
+          className="result-slot"
+          data-active={state.status === "idle" ? undefined : ""}
+        >
           {state.status === "loading" && (
-            <p className="pending">{checking ? WAITING_FOR_CHECK : "The board is deliberating…"}</p>
+            <PendingCard order={state.order} message={checking ? WAITING_FOR_CHECK : undefined} />
           )}
           {state.status === "done" &&
             (state.outcome.ok ? (
               <>
                 <RulingCard result={state.outcome.result} mock={state.outcome.mock} />
-                <ShareBar order={state.order} result={state.outcome.result} />
+                <ShareBar
+                  order={state.order}
+                  result={state.outcome.result}
+                  onAnother={reviewAnother}
+                />
               </>
             ) : (
               <div className="error-panel">
                 <p className="error">{state.outcome.message}</p>
-                {state.outcome.code === "stale_client" && (
-                  <button
-                    type="button"
-                    className="button button-secondary"
-                    onClick={() => window.location.reload()}
-                  >
-                    Reload the page
-                  </button>
-                )}
+                <div className="share-buttons">
+                  {state.outcome.code === "stale_client" && (
+                    <button
+                      type="button"
+                      className="button button-secondary"
+                      onClick={() => window.location.reload()}
+                    >
+                      Reload the page
+                    </button>
+                  )}
+                  {state.outcome.code !== "stale_client" && (
+                    <AnotherButton onClick={reviewAnother} />
+                  )}
+                </div>
               </div>
             ))}
         </section>

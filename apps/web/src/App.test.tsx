@@ -1,5 +1,5 @@
 import { mockPolicyResponse, ruleUrl } from "@bagel/core";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { App } from "./App";
@@ -217,5 +217,155 @@ describe("showing the ruling", () => {
     const desktopInput = screen.getByLabelText("What are you bringing?");
     await userEvent.type(desktopInput, "plain bagel{Enter}");
     expect(document.activeElement).toBe(desktopInput);
+  });
+});
+
+describe("while the board deliberates", () => {
+  beforeEach(() => window.history.replaceState(null, "", "/"));
+
+  it("shows progress on the Submit button and a placeholder card for the order", async () => {
+    let answer: (response: Response) => void = () => {};
+    vi.stubGlobal("fetch", () => new Promise<Response>((resolve) => (answer = resolve)));
+    render(<App />);
+    await userEvent.type(screen.getByLabelText("What are you bringing?"), "plain bagel{Enter}");
+
+    expect(screen.getByRole("button", { name: "Reviewing…" })).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+    expect(screen.getByText("The board is deliberating…")).toBeInTheDocument();
+    expect(screen.getByText("“plain bagel”")).toHaveAttribute("aria-hidden", "true");
+
+    answer(Response.json({ ...mockPolicyResponse("plain bagel"), mock: true }));
+    expect(await screen.findByRole("heading", { name: "Proper" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Submit for review" })).not.toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
+  });
+
+  const touchScreen = () =>
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: query === "(pointer: coarse)",
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+
+  it("waits for the keyboard when Submit is tapped, not only on Enter", async () => {
+    touchScreen();
+    vi.stubGlobal("fetch", () => new Promise<Response>(() => {}));
+    const scroll = vi.spyOn(Element.prototype, "scrollIntoView");
+    render(<App />);
+    await userEvent.type(screen.getByLabelText("What are you bringing?"), "plain bagel");
+    await userEvent.click(screen.getByRole("button", { name: "Submit for review" }));
+
+    expect(scroll).not.toHaveBeenCalled();
+    await waitFor(() => expect(scroll).toHaveBeenCalled(), { timeout: 1000 });
+  });
+
+  it("drops the pending scroll when the visitor navigates away first", async () => {
+    touchScreen();
+    vi.stubGlobal("fetch", () => new Promise<Response>(() => {}));
+    const scroll = vi.spyOn(Element.prototype, "scrollIntoView");
+    render(<App />);
+    await userEvent.type(screen.getByLabelText("What are you bringing?"), "plain bagel{Enter}");
+    act(() => {
+      window.history.replaceState(null, "", "/");
+      window.dispatchEvent(new PopStateEvent("popstate"));
+    });
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(scroll).not.toHaveBeenCalled();
+  });
+
+  it("waits for the phone keyboard to close before scrolling", async () => {
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: query === "(pointer: coarse)",
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+    vi.stubGlobal("fetch", () => new Promise<Response>(() => {}));
+    const scroll = vi.spyOn(Element.prototype, "scrollIntoView");
+    render(<App />);
+    await userEvent.type(screen.getByLabelText("What are you bringing?"), "plain bagel{Enter}");
+
+    expect(scroll).not.toHaveBeenCalled();
+    await waitFor(() => expect(scroll).toHaveBeenCalled(), { timeout: 1000 });
+  });
+});
+
+describe("reviewing another order", () => {
+  beforeEach(() => window.history.replaceState(null, "", "/"));
+
+  it("takes the visitor back to the box with the last order selected", async () => {
+    vi.stubGlobal("fetch", async (url: string) => {
+      const order = new URL(url, "http://x").searchParams.get("order") ?? "";
+      return Response.json({ ...mockPolicyResponse(order), mock: true });
+    });
+    const scroll = vi.spyOn(Element.prototype, "scrollIntoView");
+    render(<App />);
+    const input = screen.getByLabelText<HTMLInputElement>("What are you bringing?");
+    await userEvent.click(screen.getByRole("button", { name: /plain bagel with avocado/ }));
+    await screen.findByRole("heading", { name: "Borderline" });
+
+    await userEvent.click(screen.getByRole("button", { name: "Review another order" }));
+    expect(document.activeElement).toBe(input);
+    expect(input.selectionStart).toBe(0);
+    expect(input.selectionEnd).toBe(input.value.length);
+    expect(scroll.mock.contexts.at(-1)).toBe(input);
+    expect(scroll).toHaveBeenLastCalledWith({ behavior: "smooth", block: "center" });
+  });
+
+  it("lets the phone reveal the field itself instead of racing its keyboard", async () => {
+    vi.stubGlobal("matchMedia", (query: string) => ({
+      matches: query === "(pointer: coarse)",
+      media: query,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+    }));
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ ...mockPolicyResponse("plain bagel"), mock: true }),
+    );
+    render(<App />);
+    const input = screen.getByLabelText<HTMLInputElement>("What are you bringing?");
+    await userEvent.type(input, "plain bagel{Enter}");
+    await screen.findByRole("heading", { name: "Proper" });
+    const focus = vi.spyOn(input, "focus");
+    const scroll = vi.spyOn(Element.prototype, "scrollIntoView");
+
+    await userEvent.click(screen.getByRole("button", { name: "Review another order" }));
+    expect(focus).toHaveBeenCalledWith();
+    expect(scroll.mock.contexts).not.toContain(input);
+    expect(input.selectionEnd).toBe("plain bagel".length);
+  });
+
+  it("is offered after an error", async () => {
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ error: { code: "timeout", message: "slow" } }, { status: 504 }),
+    );
+    render(<App />);
+    await userEvent.type(screen.getByLabelText("What are you bringing?"), "plain bagel{Enter}");
+    expect(await screen.findByRole("button", { name: "Review another order" })).toBeVisible();
+  });
+
+  it("is not offered on a stale page, where only a reload helps", async () => {
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ error: { code: "stale_client", message: "old" } }, { status: 409 }),
+    );
+    render(<App />);
+    await userEvent.type(screen.getByLabelText("What are you bringing?"), "plain bagel{Enter}");
+    expect(await screen.findByRole("button", { name: "Reload the page" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Review another order" })).toBeNull();
+  });
+
+  it("is offered after a declined order, with nothing to share", async () => {
+    vi.stubGlobal("fetch", async () =>
+      Response.json({ ...mockPolicyResponse("slur bagel"), mock: true }),
+    );
+    render(<App />);
+    await userEvent.type(screen.getByLabelText("What are you bringing?"), "slur bagel{Enter}");
+    expect(await screen.findByRole("button", { name: "Review another order" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Copy link" })).toBeNull();
   });
 });

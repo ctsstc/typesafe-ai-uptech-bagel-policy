@@ -191,9 +191,76 @@ input:focus-visible {
   margin-top: 40px;
 }
 
+/* Reserves a screen of height on phones, so the result area can always scroll to the top and a
+   short outcome replacing the placeholder does not shrink the page under the reader. */
+@media (max-width: 700px) {
+  .result-slot[data-active] {
+    min-height: calc(100svh - 16px);
+  }
+}
+
 .pending,
 .error {
   font-weight: 600;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 8px;
+  vertical-align: -0.15em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.card-pending {
+  --accent: var(--sky);
+}
+
+.skeleton {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.skeleton span {
+  display: block;
+  height: 48px;
+  border-radius: var(--radius);
+  background: var(--line);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton .skeleton-verdict {
+  width: 60%;
+  height: 64px;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-right-color: currentColor;
+    opacity: 0.6;
+  }
+
+  .skeleton span {
+    animation: none;
+  }
 }
 
 .error {
@@ -397,4 +464,8 @@ input:focus-visible {
   border-radius: var(--radius);
   background: var(--bg);
   color: var(--ink-strong);
+}
+
+.error-panel .share-buttons {
+  margin-top: 16px;
 }
