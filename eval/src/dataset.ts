@@ -104,18 +104,16 @@ function tiers<T extends string>(
 /** Every verdict some accepted combination of labels produces. */
 export function expectedVerdicts(labels: Omit<BagelLabels, "verdicts">): readonly VerdictId[] {
   const verdicts = new Set<VerdictId>();
-  const sandwiches = labels.sandwich === "either" ? [false, true] : [labels.sandwich];
   for (const b of labels.bagel)
     for (const s of labels.spread)
-      for (const t of labels.toppings)
-        for (const sandwich of sandwiches) {
-          const severities = [
-            SECTIONS.bagel.tiers[b].severity,
-            SECTIONS.spread.tiers[s].severity,
-            SECTIONS.toppings.tiers[t].severity,
-          ];
-          verdicts.add(verdictOf(severities, sandwich));
-        }
+      for (const t of labels.toppings) {
+        const severities = [
+          SECTIONS.bagel.tiers[b].severity,
+          SECTIONS.spread.tiers[s].severity,
+          SECTIONS.toppings.tiers[t].severity,
+        ];
+        verdicts.add(verdictOf(severities));
+      }
   return [...verdicts];
 }
 

@@ -17,6 +17,4 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - Question set 3. The toppings question no longer grades the bagel's own flavor or the cream cheese as a topping, the sandwich question treats bagels as open-faced unless the order says otherwise, and orders that tell the board what to rule are treated as nonsense. `THRESHOLDS.sandwich` is now 0.8. Verdict accuracy went from 43% to 94% on canon and from 56% to 97% on holdout.
 
-### Known issues
-
-- "egg bagel" is ruled Borderline because Jev reads the egg as a topping.
+- A sandwich is now a "Sandwich alert" under the verdict instead of forcing a Violation, so an otherwise proper bagel served closed keeps its real verdict.

@@ -2,7 +2,7 @@ import { mockPolicyResponse, QUESTION_SET_VERSION } from "@bagel/core";
 import { describe, expect, it } from "vitest";
 import type { RawRecord } from "./cache";
 import { parseDataset } from "./dataset";
-import { scoreItem, summarize, verdictAtSandwich } from "./score";
+import { sandwichRightAt, scoreItem, summarize } from "./score";
 
 const record = (order: string): RawRecord => ({
   order,
@@ -45,10 +45,11 @@ describe("scoreItem", () => {
     });
   });
 
-  it("recomputes verdicts for the sandwich sweep", () => {
+  it("rescores the sandwich flag at another threshold", () => {
     if (!cinnamon) throw new Error("fixture");
     const outcome = scoreItem(cinnamon, record(cinnamon.order));
-    expect(verdictAtSandwich(outcome, 0.01)).toBe("violation");
+    expect(sandwichRightAt(outcome, 0.01)).toBe(false);
+    expect(sandwichRightAt(outcome, 0.8)).toBe(true);
   });
 });
 

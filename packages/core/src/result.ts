@@ -61,14 +61,10 @@ function sectionRuling(section: SectionId, response: PolicyResponse): SectionRul
   };
 }
 
-// The policy treats bagels delivered as sandwiches as a failure, and sun-dried tomatoes as merely improper.
-export function verdictOf(severities: readonly (Severity | null)[], sandwich: boolean): VerdictId {
-  const worst = Math.max(
-    SEVERITY.proper,
-    ...severities.map((s) => s ?? SEVERITY.proper),
-    sandwich ? SEVERITY.violation : SEVERITY.proper,
-  ) as Severity;
-  return VERDICT_BY_SEVERITY[worst];
+// Sandwiches and sun-dried tomatoes are flags on the card, not part of the verdict.
+export function verdictOf(severities: readonly (Severity | null)[]): VerdictId {
+  const worst = Math.max(SEVERITY.proper, ...severities.map((s) => s ?? SEVERITY.proper));
+  return VERDICT_BY_SEVERITY[worst as Severity];
 }
 
 export function toPolicyResult(order: string, response: PolicyResponse): PolicyResult {
@@ -84,10 +80,7 @@ export function toPolicyResult(order: string, response: PolicyResponse): PolicyR
   return {
     kind: "ruling",
     order,
-    verdict: verdictOf(
-      sections.map((s) => s.severity),
-      sandwich,
-    ),
+    verdict: verdictOf(sections.map((s) => s.severity)),
     sections,
     sandwich,
     sunDried: answers.sun_dried_tomatoes.noul >= THRESHOLDS.sunDried,

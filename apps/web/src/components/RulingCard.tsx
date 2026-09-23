@@ -27,6 +27,12 @@ export function RulingCard({ result, mock }: { result: PolicyResult; mock: boole
       <p className="card-order">“{result.order}”</p>
       <h2 className="verdict">{verdict.label}</h2>
       <p className="verdict-blurb">{verdict.blurb}</p>
+      {result.sandwich && (
+        <p className="sandwich-flag">
+          <strong>Sandwich alert.</strong> The policy says a proper bagel is served open-faced.
+          Asked to bring bagels and brought sandwiches? You have failed.
+        </p>
+      )}
 
       <dl className="sections">
         {result.sections.map((s) => (
@@ -42,21 +48,10 @@ export function RulingCard({ result, mock }: { result: PolicyResult; mock: boole
         ))}
       </dl>
 
-      {(result.sandwich || result.sunDried) && (
-        <ul className="concerns">
-          {result.sandwich && (
-            <li>
-              <strong>Sandwich.</strong> Asked to bring bagels and brought sandwiches? You have
-              failed.
-            </li>
-          )}
-          {result.sunDried && (
-            <li>
-              <strong>Sun-dried tomatoes.</strong> Not strictly proper, but not a disciplinary
-              matter.
-            </li>
-          )}
-        </ul>
+      {result.sunDried && (
+        <p className="concerns">
+          <strong>Sun-dried tomatoes.</strong> Not strictly proper, but not a disciplinary matter.
+        </p>
       )}
 
       <p className="outrage">Office reaction: {outrage}.</p>

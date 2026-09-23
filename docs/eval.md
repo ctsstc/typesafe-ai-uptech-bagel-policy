@@ -35,7 +35,7 @@ The cache is keyed by `QUESTION_SET_VERSION` and a SHA-256 fingerprint of the re
 | `consensus` | tune or holdout | An order built around an ingredient the policy never names, listed in `novel` |
 | `probe` | tune or holdout | Input-gate and sandwich phrasing tests: open face, clear sandwiches, bagel-adjacent foods, gibberish, injections, typos |
 
-Each bagel order labels `bagel`, `spread`, `toppings` and `sandwich` (`true`, `false` or `"either"`). A field may list several tiers when more than one is defensible. The expected verdicts are every verdict that some accepted combination produces under `verdictOf`, so labels and the app can never disagree about the rule.
+Each bagel order labels `bagel`, `spread`, `toppings` and `sandwich` (`true`, `false` or `"either"`). A field may list several tiers when more than one is defensible. The expected verdicts are every verdict that some accepted combination of bagel, spread and toppings produces under `verdictOf`, so labels and the app can never disagree about the rule. The sandwich flag is scored on its own column and does not affect the verdict.
 
 A non-canon order goes to tune when the FNV-1a hash of its text mod 100 is below 60, otherwise holdout.
 
@@ -88,9 +88,13 @@ Tune went from 43 to 59 of 76. Every flavor-as-topping failure was fixed. On tun
 
 Tune reached 68 of 76. Fixed: ham and poached egg beside lox or red onion, kimchi, the injection and the bagel dog. Regressed: anchovies went from acceptable to borderline.
 
+### Sandwich becomes a flag
+
+A sandwich no longer pushes the verdict to violation. The card shows a "Sandwich alert" under the verdict instead, and the verdict comes from the bagel, cream cheese and toppings alone. This is a product call, not a question change, so v3 was rescored offline. The totals did not move (48/51, 68/76, 61/63): the holdout breakfast sandwich that scored 0.79 no longer fails, and a BLT whose violation had come only from the sandwich now does.
+
 Known misses on v3:
 
-- **egg bagel** (canon) reads "egg" as a topping, a side effect of naming egg in borderline.
+- **egg bagel** (canon) reads "egg" as a topping and comes back borderline. Accepted as is: borderline is a fair reading.
 - **Honey cream cheese** (canon) is still graded as a just stop topping on top of the sweet spread.
-- **bec on an everything bagel** (holdout) scored 0.79 on sandwich, just under the 0.8 threshold. The tune sweep is flat from 0.7 to 0.9, so the threshold was not moved on holdout's account.
+- **BLT on a bagel** (holdout) grades lettuce as borderline rather than misc vegetables.
 - Jev does not know sable is a smoked fish or that a bialy is not a bagel.

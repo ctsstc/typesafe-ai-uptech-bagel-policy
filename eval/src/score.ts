@@ -1,12 +1,10 @@
 import {
   type InputKindId,
   type PolicyAnswers,
-  SECTIONS,
   type SectionId,
   THRESHOLDS,
   toPolicyResult,
   type VerdictId,
-  verdictOf,
 } from "@bagel/core";
 import type { RawRecord } from "./cache";
 import type { LabelledItem, Split } from "./dataset";
@@ -92,15 +90,11 @@ export function scoreItem(item: LabelledItem, record: RawRecord): Outcome {
   };
 }
 
-/** The verdict at another sandwich threshold, for the sweep. Section answers stay as Jev gave them. */
-export function verdictAtSandwich(outcome: Outcome, threshold: number): VerdictId | null {
-  if (outcome.verdict === null || !outcome.sandwich) return outcome.verdict;
-  const severities = (["bagel", "spread", "toppings"] as const).map((id) => {
-    const got = outcome.fields[id]?.got;
-    const tiers: Record<string, { severity: 0 | 1 | 2 | 3 | 4 | null }> = SECTIONS[id].tiers;
-    return got === undefined ? null : (tiers[got]?.severity ?? null);
-  });
-  return verdictOf(severities, outcome.sandwich.p >= threshold);
+/** Whether the sandwich flag would be right at another threshold, for the sweep. */
+export function sandwichRightAt(outcome: Outcome, threshold: number): boolean | null {
+  if (!outcome.sandwich) return null;
+  const { expected, p } = outcome.sandwich;
+  return expected === "either" || expected === p >= threshold;
 }
 
 export interface Rate {
@@ -168,10 +162,9 @@ export function summarize(
   const by = (split: Split) => outcomes.filter((o) => o.split === split);
   const sweepRate = (items: readonly Outcome[], threshold: number) =>
     rate(
-      items.map((o) => {
-        if (!o.expectedVerdicts) return o.correct;
-        const verdict = verdictAtSandwich(o, threshold);
-        return verdict !== null && o.expectedVerdicts.includes(verdict);
+      items.flatMap((o) => {
+        const right = sandwichRightAt(o, threshold);
+        return right === null ? [] : [right];
       }),
     );
   const tokens = outcomes.map((o) => o.inputTokens);

@@ -13,17 +13,17 @@ A verdict is right when the app's own ruling (`toPolicyResult`) matches a verdic
 
 ## Sandwich threshold sweep
 
-Verdict accuracy if `THRESHOLDS.sandwich` were each value. Holdout is left out on purpose.
+How often the sandwich flag would be right on bagel orders if `THRESHOLDS.sandwich` were each value. Holdout is left out on purpose.
 
 | Threshold | Tune | Canon |
 |---|---|---|
-| 0.3 | 77.6% (59/76) | 88.2% (45/51) |
-| 0.4 | 78.9% (60/76) | 92.2% (47/51) |
-| 0.5 | 81.6% (62/76) | 94.1% (48/51) |
-| 0.6 | 84.2% (64/76) | 94.1% (48/51) |
-| 0.7 | 89.5% (68/76) | 94.1% (48/51) |
-| 0.8 | 89.5% (68/76) | 94.1% (48/51) |
-| 0.9 | 89.5% (68/76) | 94.1% (48/51) |
+| 0.3 | 84.6% (55/65) | 92.0% (46/50) |
+| 0.4 | 86.2% (56/65) | 96.0% (48/50) |
+| 0.5 | 90.8% (59/65) | 98.0% (49/50) |
+| 0.6 | 93.8% (61/65) | 98.0% (49/50) |
+| 0.7 | 100.0% (65/65) | 98.0% (49/50) |
+| 0.8 | 100.0% (65/65) | 100.0% (50/50) |
+| 0.9 | 100.0% (65/65) | 100.0% (50/50) |
 
 ## Abuse guard
 
@@ -61,6 +61,6 @@ Verdict accuracy if `THRESHOLDS.sandwich` were each value. Holdout is left out o
 <summary>Holdout failures (check once per finished candidate, never tune against them)</summary>
 
 - spinach basil bagel with cream cheese: violation, want proper. toppings misc_vegetables 0.48 (want none)
-- bec on an everything bagel: borderline, want violation. sandwich 0.79 (want true)
+- blt on a toasted plain bagel: borderline, want violation. toppings borderline 0.88 (want misc_vegetables)
 
 </details>

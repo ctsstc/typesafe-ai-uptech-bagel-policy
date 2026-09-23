@@ -57,7 +57,7 @@ ${splitRow("all", s.all)}
 
 ## Sandwich threshold sweep
 
-Verdict accuracy if \`THRESHOLDS.sandwich\` were each value. Holdout is left out on purpose.
+How often the sandwich flag would be right on bagel orders if \`THRESHOLDS.sandwich\` were each value. Holdout is left out on purpose.
 
 | Threshold | Tune | Canon |
 |---|---|---|

@@ -118,78 +118,78 @@
     {
       "threshold": 0.3,
       "tune": {
-        "right": 59,
-        "n": 76
+        "right": 55,
+        "n": 65
       },
       "canon": {
-        "right": 45,
-        "n": 51
+        "right": 46,
+        "n": 50
       }
     },
     {
       "threshold": 0.4,
       "tune": {
-        "right": 60,
-        "n": 76
+        "right": 56,
+        "n": 65
       },
       "canon": {
-        "right": 47,
-        "n": 51
+        "right": 48,
+        "n": 50
       }
     },
     {
       "threshold": 0.5,
       "tune": {
-        "right": 62,
-        "n": 76
+        "right": 59,
+        "n": 65
       },
       "canon": {
-        "right": 48,
-        "n": 51
+        "right": 49,
+        "n": 50
       }
     },
     {
       "threshold": 0.6,
       "tune": {
-        "right": 64,
-        "n": 76
+        "right": 61,
+        "n": 65
       },
       "canon": {
-        "right": 48,
-        "n": 51
+        "right": 49,
+        "n": 50
       }
     },
     {
       "threshold": 0.7,
       "tune": {
-        "right": 68,
-        "n": 76
+        "right": 65,
+        "n": 65
       },
       "canon": {
-        "right": 48,
-        "n": 51
+        "right": 49,
+        "n": 50
       }
     },
     {
       "threshold": 0.8,
       "tune": {
-        "right": 68,
-        "n": 76
+        "right": 65,
+        "n": 65
       },
       "canon": {
-        "right": 48,
-        "n": 51
+        "right": 50,
+        "n": 50
       }
     },
     {
       "threshold": 0.9,
       "tune": {
-        "right": 68,
-        "n": 76
+        "right": 65,
+        "n": 65
       },
       "canon": {
-        "right": 48,
-        "n": 51
+        "right": 50,
+        "n": 50
       }
     }
   ],

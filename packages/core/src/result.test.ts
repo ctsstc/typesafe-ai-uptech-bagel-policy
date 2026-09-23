@@ -12,11 +12,15 @@ describe("toPolicyResult", () => {
     ["cinnamon raisin bagel with cream cheese", "violation"],
     ["plain bagel with garden veggie cream cheese", "violation"],
     ["sesame bagel with peanut butter and banana", "just_stop"],
-    ["bacon egg and cheese sandwich on an everything bagel", "violation"],
   ])("%s is %s", (order, verdict) => {
     const result = rule(order);
     expect(result.kind).toBe("ruling");
     if (result.kind === "ruling") expect(result.verdict).toBe(verdict);
+  });
+
+  it("flags a sandwich without letting it set the verdict", () => {
+    const result = rule("bacon egg and cheese sandwich on an everything bagel");
+    expect(result).toMatchObject({ kind: "ruling", verdict: "borderline", sandwich: true });
   });
 
   it("sends orders without a bagel out of scope", () => {

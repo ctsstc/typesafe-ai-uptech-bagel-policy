@@ -63,7 +63,7 @@ describe("expectedVerdicts", () => {
       toppings: ["proper", "borderline"],
       sandwich: "either",
     });
-    expect([...verdicts].sort()).toEqual(["borderline", "proper", "violation"]);
+    expect([...verdicts].sort()).toEqual(["borderline", "proper"]);
   });
 });
 
